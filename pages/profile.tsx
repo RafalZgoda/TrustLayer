@@ -6,8 +6,8 @@ const Profile: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Profile - Trust Layer</title> 
-        <meta name="description" content="Profile - Trust Layer" /> 
+        <title>Profile - Trust Layer</title>
+        <meta name="description" content="Profile - Trust Layer" />
       </Head>
       <ProfileScreen />
     </>

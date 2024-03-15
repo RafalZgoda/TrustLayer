@@ -14,7 +14,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider initialChain={INITIAL_CHAIN} locale="en-US" theme={darkTheme()}>
+        <RainbowKitProvider
+          initialChain={INITIAL_CHAIN}
+          locale="en-US"
+          theme={darkTheme({
+            accentColor: "#0178FE",
+            accentColorForeground: "white",
+            fontStack: "system",
+            overlayBlur: "small",
+          })}
+        >
           <Layout>
             <Component {...pageProps} />
           </Layout>

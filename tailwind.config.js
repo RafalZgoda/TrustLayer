@@ -17,8 +17,11 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: (theme) => ({
+        "blue-gradient-circle": "radial-gradient(circle, rgba(6, 78, 159, 1) 0%,  rgba(6, 78, 159, 0) 70%, rgba(6, 78, 159, 0) 100%)",
+      }),
       colors: {
-        "primary-blue": "#228CEE", // bg-custom-blue
+        "primary-blue": "#0178FE", // bg-custom-blue
         "custom-pink": {
           light: "#f6e0e5",
           DEFAULT: "#f06292",
