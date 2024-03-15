@@ -18,8 +18,7 @@ module.exports = {
     },
     extend: {
       colors: {
-        "custom-dark-blue": "#0F061D",
-        "custom-blue": "#007bff", // bg-custom-blue
+        "primary-blue": "#228CEE", // bg-custom-blue
         "custom-pink": {
           light: "#f6e0e5",
           DEFAULT: "#f06292",
