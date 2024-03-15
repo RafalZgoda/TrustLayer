@@ -1,5 +1,3 @@
-// Copy this file and create your screen
-
 const ProfileScreen: React.FC = () => {
   return (
     <div className="w-full">

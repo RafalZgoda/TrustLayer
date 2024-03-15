@@ -1,7 +1,7 @@
-const HomeScreen: React.FC = () => {
+const EcosystemScreen: React.FC = () => {
   return (
     <div className="w-full">
-      <h1 className="">Home</h1>
+      <h1>Ecosystem</h1>
       <div>
         <p>text</p>
       </div>
@@ -9,4 +9,4 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-export default HomeScreen;
+export default EcosystemScreen;
