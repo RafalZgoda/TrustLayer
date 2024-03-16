@@ -19,7 +19,7 @@ const Profile: NextPage = () => {
     setTwitter(twitterUsername.toLowerCase());
     if (userDataSmart) {
       setAddress(userDataSmart.address);
-      setSmartAddress(userDataSmart.smartAddress);
+      setSmartAddress(userDataSmart.privyAddress);
     }
 
     setIsUserWorlCoinVerified(true);
