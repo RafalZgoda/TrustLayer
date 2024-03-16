@@ -4,7 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
+//
 const CircleNetwork: NextPage = () => {
   const network = [
     {
