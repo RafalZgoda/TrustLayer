@@ -7,16 +7,19 @@ import { walletClientToSmartAccountSigner, ENTRYPOINT_ADDRESS_V06, createSmartAc
 import { getChainFromId } from "@/lib/utils";
 import { PIMLICO_API_KEY, paymasterClient, pimlicoBundlerClient } from "@/lib/safe";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { sepolia } from "viem/chains";
+import { arbitrumSepolia, baseSepolia, sepolia } from "viem/chains";
+import { WalletClientSigner, type SmartAccountSigner } from "@alchemy/aa-core";
+import { AlchemyProvider } from "@alchemy/aa-alchemy";
+import { getDefaultLightAccountFactory, LightSmartContractAccount } from "@alchemy/aa-accounts";
 
 export let smartAccount: any;
-export let currentChain: Chain;
 
 export function ConnectBtn() {
   const { login, logout, ready, authenticated } = usePrivy();
   const { wallets } = useWallets();
   const [wallet, setWallet] = useState<ConnectedWallet>();
-  const [chain, setChain] = useState("11155111");
+  const [chainId, setChainId] = useState("11155111");
+  const [chain, setChain] = useState<Chain>(sepolia);
 
   useEffect(() => {
     const setupSafe = async () => {
@@ -26,7 +29,7 @@ export function ConnectBtn() {
       const eip1193provider = await wallet.getEthereumProvider();
       const privyClient = createWalletClient({
         account: wallet.address as `0x${string}`,
-        chain: currentChain,
+        chain: sepolia,
         transport: custom(eip1193provider),
       });
 
@@ -43,7 +46,7 @@ export function ConnectBtn() {
       const smartAccountClient = createSmartAccountClient({
         account: safeAccount,
         entryPoint: ENTRYPOINT_ADDRESS_V06,
-        chain: currentChain,
+        chain: sepolia,
         bundlerTransport: http(`https://api.pimlico.io/v1/sepolia/rpc?apikey=${PIMLICO_API_KEY}`),
         middleware: {
           gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast,
@@ -63,30 +66,62 @@ export function ConnectBtn() {
       // console.log({ tx });
     };
 
+    const setupSmartAccount = async () => {
+      if (!wallet) return;
+
+      console.log("Setting up smart account");
+      const eip1193provider = await wallet.getEthereumProvider();
+      const privyClient = createWalletClient({
+        account: wallet.address as `0x${string}`,
+        chain: chain,
+        transport: custom(eip1193provider),
+      });
+      const privySigner: SmartAccountSigner = new WalletClientSigner(privyClient, "json-rpc");
+
+      const provider = new AlchemyProvider({
+        apiKey: process.env.NEXT_PUBLIC_BASE_ALCHEMY_KEY,
+        chain: chain,
+        entryPointAddress: ENTRYPOINT_ADDRESS_V06,
+      }).connect(
+        (rpcClient: any) =>
+          new LightSmartContractAccount({
+            entryPointAddress: ENTRYPOINT_ADDRESS_V06,
+            chain: rpcClient.chain,
+            owner: privySigner,
+            factoryAddress: getDefaultLightAccountFactory(rpcClient.chain),
+            rpcClient,
+          }),
+      );
+
+      console.log({ provider });
+    };
+
     if (wallets.length > 0) {
       setWallet(wallets[0]);
-      currentChain = getChainFromId(wallets[0].chainId.split(":")[1]);
-
-      if (currentChain === sepolia) setupSafe();
+      console.log({ chain });
+      if (chain === sepolia) setupSafe();
+      if (chain === baseSepolia) setupSmartAccount();
     }
-  }, [wallet, wallets]);
+  }, [wallet, wallets, chain, chainId]);
 
   const handleChangeChain = async (chainId: string) => {
-    setChain(chainId);
     await wallets[0].switchChain(parseFloat(chainId));
+    setChain(getChainFromId(chainId));
+    setChainId(chainId);
   };
 
   return (
     <div className="flex gap-3">
       {ready && authenticated && (
         <>
-          <Select onValueChange={async (chain) => handleChangeChain(chain)} value={chain}>
+          <Select onValueChange={async (chain) => handleChangeChain(chain)} value={chainId}>
             <SelectTrigger className="w-[110px]">
               <SelectValue placeholder="Sepolia" defaultValue={"11155111"} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="11155111">Ethereum</SelectItem>
               <SelectItem value="421614">Arbitrum</SelectItem>
+              <SelectItem value="84532">Base</SelectItem>
             </SelectContent>
           </Select>
         </>

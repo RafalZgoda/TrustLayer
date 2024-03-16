@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { arbitrumSepolia, sepolia } from "viem/chains";
+import { arbitrumSepolia, baseSepolia, sepolia } from "viem/chains";
 import { Chain } from "viem";
 
 export function cn(...inputs: ClassValue[]) {
@@ -17,6 +17,8 @@ export const getChainFromId = (chainId: string): Chain => {
       return sepolia;
     case "421614":
       return arbitrumSepolia;
+    case "84532":
+      return baseSepolia;
     default:
       return sepolia;
   }
