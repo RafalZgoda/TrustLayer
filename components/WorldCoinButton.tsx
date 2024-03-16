@@ -24,6 +24,7 @@ export default function WorldcoinButton() {
   };
 
   useEffect(() => {
+    handleVerify();
     setIsClient(true);
     const isUserVerified = localStorage.getItem("worldcoin-verified");
     setUserVerified(isUserVerified === "true");
