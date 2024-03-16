@@ -52,9 +52,9 @@ contract TrustLayer is Ownable {
         }
     }
 
-    function trustNonMember(string username, uint256 _amount) public {
+    function trustNonMember(string memory username, uint256 _amount) public {
         // _setTrust(", _amount);
-        pendingMembersTrust[msg.sender]=  username;
+        pendingMembersTrust[msg.sender] = username;
 
     }
 
