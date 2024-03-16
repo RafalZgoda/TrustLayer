@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Logo from "./Logo";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { menuLinks } from "@/lib/menuLinks";
+import { ConnectBtn } from "./ConnectBtn";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,8 +61,8 @@ const Header: React.FC = () => {
             </Link>
           ))}
         </nav>
-
-        <ConnectButton showBalance={false} chainStatus="icon" accountStatus="address" />
+        {/* <ConnectButton showBalance={false} chainStatus="icon" accountStatus="address" /> */}
+        <ConnectBtn />
         <button
           className="sm:hidden z-[100] ml-4" // Button is only visible on mobile
           onClick={() => {
