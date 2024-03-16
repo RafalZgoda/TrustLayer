@@ -13,7 +13,7 @@ const ProfileScreen = (params: {
   // const isLoggedUser = userAccount.address === profileAddress;
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center mb-16">
       <div className="w-6/12 flex flex-col">
         <h1 className="mb-10 text-3xl font-bold text-center glass p-5">{identity}</h1>
 

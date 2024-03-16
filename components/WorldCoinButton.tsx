@@ -9,10 +9,10 @@ const onSuccess = async (response: any) => {
 
 export default function WorldcoinButton() {
   if (process.env.NEXT_PUBLIC_WLD_APP_ID === undefined) throw new Error("NEXT_PUBLIC_WLD_APP_ID is undefined");
-  const [userVerified, setUserVeridied] = useState(false);
+  const [userVerified, setUserVerified] = useState(true);
   const [isClient, setIsClient] = useState(false);
 
-  const handleVerify = async (response: any) => {
+  const handleVerify = async () => {
     localStorage.setItem("worldcoin-verified", "true");
     isUserVerifiedWithWorldID();
   };
@@ -20,13 +20,13 @@ export default function WorldcoinButton() {
   const isUserVerifiedWithWorldID = () => {
     // here we check local storage for user verification
     console.log(localStorage.getItem("worldcoin-verified"));
-    setUserVeridied(localStorage.getItem("worldcoin-verified") === "true");
+    setUserVerified(localStorage.getItem("worldcoin-verified") === "true");
   };
 
   useEffect(() => {
     setIsClient(true);
     const isUserVerified = localStorage.getItem("worldcoin-verified");
-    setUserVeridied(isUserVerified === "true");
+    setUserVerified(isUserVerified === "true");
   }, []);
 
   return (
@@ -39,7 +39,7 @@ export default function WorldcoinButton() {
               <DialogDescription>
                 <div className="flex justify-center z-99">
                   <IDKitWidget
-                    app_id={process.env.NEXT_PUBLIC_WLD_APP_ID} // obtained from the Developer Portal
+                    app_id={process.env.NEXT_PUBLIC_WLD_APP_ID as `app_${string}`} // obtained from the Developer Portal
                     action="test" // this is your action name from the Developer Portal
                     onSuccess={onSuccess} // callback when the modal is closed
                     handleVerify={handleVerify} // optional callback when the proof is received
