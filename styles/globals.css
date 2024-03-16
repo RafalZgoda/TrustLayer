@@ -79,3 +79,7 @@ border: 1px solid rgba(255, 255, 255, 0.3);
 
 #idkit-widget{z-index: 99;
 position: absolute;}
+
+.light-gradient {background: rgb(20,52,68);
+  background: radial-gradient(circle, rgba(20,52,68,1) 0%, rgba(15,35,45,1) 100%); 
+}
