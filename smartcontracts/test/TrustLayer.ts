@@ -98,6 +98,5 @@ describe("TrustLayer", function () {
     // Vérifications finales pour le remboursement individuel
     expect(BigInt(bobBalanceBeforeRepayment) - BigInt(bobBalanceAfterIndividualPayBack)).to.equal(BigInt(borrowAmount));
     expect(BigInt(balAliceAfterIndividualPayBack) - BigInt(balAliceAfterBorrow)).to.equal(BigInt(borrowAmount));
-
   });
 });

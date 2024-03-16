@@ -13,7 +13,6 @@ contract TrustLayer is Ownable {
         bool isMember;
         address mainWallet;
         Loan[] loans;
-
     }
 
     struct Loan {
@@ -26,6 +25,7 @@ contract TrustLayer is Ownable {
     uint256 public constant BORROW_LIMIT_PERCENT = 50;
     uint256 public memberCount = 0;
     mapping(address => Member) public members;
+    mapping(address => string) public pendingMembersTrust;
     
     constructor() Ownable(msg.sender) {
         addMember(msg.sender);
@@ -50,6 +50,12 @@ contract TrustLayer is Ownable {
         } else {
             _removeTrust(_member);
         }
+    }
+
+    function trustNonMember(string username, uint256 _amount) public {
+        // _setTrust(", _amount);
+        pendingMembersTrust[msg.sender]=  username;
+
     }
 
     // Calculate the maximum borrowable amount or the trust level 
