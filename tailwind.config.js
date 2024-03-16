@@ -18,10 +18,11 @@ module.exports = {
     },
     extend: {
       backgroundImage: (theme) => ({
-        "blue-gradient-circle": "radial-gradient(circle, rgba(6, 78, 159, 1) 0%,  rgba(6, 78, 159, 0) 70%, rgba(6, 78, 159, 0) 100%)",
+        "blue-gradient-circle": "radial-gradient(circle, rgba(6, 78, 159, 0.6) 0%,  rgba(6, 78, 159, 0) 70%, rgba(6, 78, 159, 0) 100%)",
       }),
       colors: {
         "primary-blue": "#0178FE", // bg-custom-blue
+        "bg-dark-blue": "#070210", // bg-custom-blue
         "custom-pink": {
           light: "#f6e0e5",
           DEFAULT: "#f06292",

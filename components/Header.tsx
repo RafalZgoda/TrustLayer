@@ -3,22 +3,7 @@ import Logo from "./Logo";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-
-const links = [
-  {
-    name: "Home",
-    route: "/",
-  },
-  {
-    name: "Profile",
-    route: "/profile",
-  },
-  {
-    name: "Ecosystem",
-    route: "/ecosystem",
-  },
-];
-
+import { menuLinks } from "@/lib/menuLinks";
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -45,7 +30,7 @@ const Header: React.FC = () => {
           w-3/4 sm:w-1/2 lg:w-1/3 min-h-screen
           sm:hidden`} // Only show and animate on mobile
         >
-          {links.map((link, index) => (
+          {menuLinks.map((link, index) => (
             <Link
               key={index}
               onClick={() => {
@@ -62,7 +47,7 @@ const Header: React.FC = () => {
         <nav // Desktop menu
           className={`hidden sm:flex items-center justify-center`}
         >
-          {links.map((link, index) => (
+          {menuLinks.map((link, index) => (
             <Link
               key={index}
               onClick={() => {
