@@ -22,6 +22,7 @@ module.exports = {
       }),
       colors: {
         "primary-blue": "#0178FE", // bg-custom-blue
+        "bg-dark-blue": "#070210", // bg-custom-blue
         "custom-pink": {
           light: "#f6e0e5",
           DEFAULT: "#f06292",
