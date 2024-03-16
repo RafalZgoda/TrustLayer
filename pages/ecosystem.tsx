@@ -6,8 +6,8 @@ const Ecosystem: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Ecosystem - Trust Layer</title>
-        <meta name="description" content="Ecosystem - Trust Layer" />
+        <title>Ecosystem - Trust Protocol</title>
+        <meta name="description" content="Ecosystem - Trust Protocol" />
       </Head>
       <EcosystemScreen />
     </>

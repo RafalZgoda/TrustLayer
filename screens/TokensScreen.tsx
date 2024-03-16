@@ -99,7 +99,7 @@ const HomeScreen: React.FC = () => {
             <div className="w-96  md:mr-8 my-4" key={index}>
               <div className="relative border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
                 <Image
-                  className="absolute -top-6 -right-6 opacity-20 -z-10"
+                  className="absolute -top-6 -right-7 opacity-50 -z-10"
                   width={180}
                   height={180}
                   src={token.imgUrl}
@@ -116,13 +116,12 @@ const HomeScreen: React.FC = () => {
                       <p>{token.priceUSD * token.approvedAmount} $</p>
                     </div>
                   </div>
-                  <div className="w-1/3 flex items-center justify-center opacity-1">
-                    <h3 className="text-3xl font-bold">{token.symbol}</h3>
-                  </div>
+                  <div className="w-1/3 flex items-center justify-center opacity-1"></div>
                 </div>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <input className="border border-white/20 rounded-md p-2 bg-bg-dark-blue text-center focus:outline-none" type="text" />
+                <h3 className="text-2xl font-bold">{token.symbol}</h3>
                 <button className="bg-primary-blue text-white px-4 py-2 rounded-md">Approve</button>
               </div>
             </div>
@@ -136,7 +135,7 @@ const HomeScreen: React.FC = () => {
             <div className="w-96 mr-8" key={index}>
               <div className="relative border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
                 <Image
-                  className="absolute -top-6 -right-6 opacity-20 -z-10"
+                  className="absolute -top-6 -right-7 opacity-50 -z-10"
                   width={180}
                   height={180}
                   src={token.imgUrl}
@@ -153,13 +152,12 @@ const HomeScreen: React.FC = () => {
                       <p>{token.priceUSD * token.inWalletAmount}</p>
                     </div>
                   </div>
-                  <div className="w-1/3 flex items-center justify-center opacity-1">
-                    <h3 className="text-3xl font-bold">{token.symbol}</h3>
-                  </div>
+                  <div className="w-1/3 flex items-center justify-center opacity-1"></div>
                 </div>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <input className="border border-white/20 rounded-md p-2 bg-bg-dark-blue text-center focus:outline-none" type="text" />
+                <h3 className="text-2xl font-bold">{token.symbol}</h3>
                 <button className="bg-primary-blue text-white px-4 py-2 rounded-lg">Approve</button>
               </div>
             </div>

@@ -22,8 +22,8 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Profile - Trust Layer</title>
-        <meta name="description" content="Profile - Trust Layer" />
+        <title>Profile - Trust Protocol</title>
+        <meta name="description" content="Profile - Trust Protocol" />
       </Head>
     </>
   );

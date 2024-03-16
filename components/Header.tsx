@@ -37,7 +37,7 @@ const Header: React.FC = () => {
               onClick={() => {
                 setIsMenuOpen(false);
               }}
-              className="mr-4"
+              className="mr-4 cursor-pointer"
               href={link.route}
             >
               {link.name}
@@ -54,7 +54,7 @@ const Header: React.FC = () => {
               onClick={() => {
                 setIsMenuOpen(false);
               }}
-              className="mr-4"
+              className="mr-4 cursor-pointer"
               href={link.route}
             >
               {link.name}
