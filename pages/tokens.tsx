@@ -6,8 +6,8 @@ const Tokens: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Tokens - Trust Layer</title>
-        <meta name="description" content="Home - Trust Layer" />
+        <title>Tokens - Trust Protocol</title>
+        <meta name="description" content="Home - Trust Protocol" />
       </Head>
       <div>
         <TokensScreen />

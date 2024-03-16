@@ -37,8 +37,8 @@ const EcosystemScreen: React.FC = () => {
             <div className="m-2 w-[36rem]" key={index}>
               <div className=" border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
                 <div className="flex mb-4">
-                  <div className="w-1/4 flex justify-center items-center rounded">
-                    <Image width={82} height={82} src={app.imgUrl} alt={app.name} />
+                  <div className="w-1/4 flex justify-center items-center">
+                    <Image className="rounded-xl" width={82} height={82} src={app.imgUrl} alt={app.name} />
                   </div>
                   <div className="w-3/4 flex flex-col justify-start items-start">
                     <p className="font-bold text-gray-500 text-sm">{app.tag}</p>

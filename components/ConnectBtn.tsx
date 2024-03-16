@@ -151,7 +151,7 @@ export function ConnectBtn() {
       )}
       {ready && !authenticated && (
         <Button variant={"default"} className="bg-blue-500 text-white rounded-lg" onClick={login}>
-          Connect Wallet
+          Sign in
         </Button>
       )}
     </div>

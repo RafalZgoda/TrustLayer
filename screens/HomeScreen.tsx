@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Link from "next/link";
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const [totalTrustUSD, setTotalTrustUSD] = useState<number>(0);
@@ -23,28 +24,28 @@ const HomeScreen: React.FC = () => {
       firstTag: 100,
       secondTag: "2021-10-10",
       name: "Kartik Talwar",
-      twitterName: "@TheRealKartik",
+      twitterName: "TheRealKartik",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
       firstTag: 100,
       secondTag: "2021-10-10",
       name: "Stani",
-      twitterName: "@StaniKulechov",
+      twitterName: "StaniKulechov",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
       firstTag: 100,
       secondTag: "2021-10-10",
       name: "Austin Griffith",
-      twitterName: "@austingriffith",
+      twitterName: "austingriffith",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
       firstTag: 100,
       secondTag: "2021-10-10",
       name: "Stani",
-      twitterName: "@drakefjustin",
+      twitterName: "drakefjustin",
     },
   ];
 
@@ -54,28 +55,28 @@ const HomeScreen: React.FC = () => {
       firstTag: 100,
       secondTag: "N+1",
       name: "Kartik Talwar",
-      twitterName: "@TheRealKartik",
+      twitterName: "TheRealKartik",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
       firstTag: 100,
       secondTag: "N+1",
       name: "Stani",
-      twitterName: "@StaniKulechov",
+      twitterName: "StaniKulechov",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
       firstTag: 100,
       secondTag: "N+2",
       name: "Austin Griffith",
-      twitterName: "@austingriffith",
+      twitterName: "austingriffith",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
       firstTag: 100,
       secondTag: "N+2",
       name: "Stani",
-      twitterName: "@drakefjustin",
+      twitterName: "drakefjustin",
     },
   ];
 
@@ -85,28 +86,28 @@ const HomeScreen: React.FC = () => {
       firstTag: "PSG",
       secondTag: "N+1",
       name: "Kartik Talwar",
-      twitterName: "@TheRealKartik",
+      twitterName: "TheRealKartik",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
       firstTag: "APE",
       secondTag: "N+1",
       name: "Stani",
-      twitterName: "@StaniKulechov",
+      twitterName: "StaniKulechov",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
       firstTag: "NOUNS",
       secondTag: "N+2",
       name: "Austin Griffith",
-      twitterName: "@austingriffith",
+      twitterName: "austingriffith",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
       firstTag: "CHZ",
       secondTag: "N+3",
       name: "Stani",
-      twitterName: "@drakefjustin",
+      twitterName: "drakefjustin",
     },
   ];
 
@@ -116,28 +117,28 @@ const HomeScreen: React.FC = () => {
       firstTag: 100,
       secondTag: "N+1",
       name: "Kartik Talwar",
-      twitterName: "@TheRealKartik",
+      twitterName: "TheRealKartik",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
       firstTag: 100,
       secondTag: "N+1",
       name: "Stani",
-      twitterName: "@StaniKulechov",
+      twitterName: "StaniKulechov",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
       firstTag: 100,
       secondTag: "N+2",
       name: "Austin Griffith",
-      twitterName: "@austingriffith",
+      twitterName: "austingriffith",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
       firstTag: 100,
       secondTag: "N+3",
       name: "Stani",
-      twitterName: "@drakefjustin",
+      twitterName: "drakefjustin",
     },
   ];
 
@@ -151,12 +152,12 @@ const HomeScreen: React.FC = () => {
           <p className="font-bold text-primary-blue text-5xl">{totalTrustUSD} USD</p>
         </div>
       </section>
-      <section className="mb-16">
-        <div className="flex flex-col items-center">
+      <section className="mb-16 w-full ">
+        <div className="flex flex-col items-center w-full ">
           <p className="font-bold text-2xl mb-8">Search and trust someone :</p>
-          <form>
+          <form className="flex">
             <input
-              placeholder="X handle, address, Farcaster, Lens..."
+              placeholder="X handle, address, ENS, Farcaster, Lens..."
               className="border border-white/20 rounded-md p-2 bg-bg-dark-blue focus:outline-none w-96 mr-4"
               type="text"
               value={searchValue}
@@ -174,6 +175,20 @@ const HomeScreen: React.FC = () => {
               Search
             </button>
           </form>
+          <div className="flex items-center justify-center mt-4">
+            <div className="mx-4">
+              <Image width={50} height={100} src="/x.png" alt="x_logo" />
+            </div>
+            <div className="mx-4">
+              <Image width={100} height={100} src="/ens.png" alt="lens_logo" />
+            </div>
+            <div className="mx-4">
+              <Image width={100} height={100} src="/farcaster.png" alt="lens_logo" />
+            </div>
+            <div className="mx-4">
+              <Image width={100} height={100} src="/lens_protocol_long.png" alt="lens_logo" />
+            </div>
+          </div>
         </div>
       </section>
       <section className="mb-16 ">
@@ -182,7 +197,8 @@ const HomeScreen: React.FC = () => {
         </h2>
         <div className="flex overflow-auto">
           {trustingYou.map((person, index) => (
-            <div
+            <Link
+              href={`/profile/${person.twitterName.toLowerCase()}`}
               className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
               key={index}
             >
@@ -192,7 +208,7 @@ const HomeScreen: React.FC = () => {
                     <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
-                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
                     <p className="font-bold  text-xl mb-2">{person.name}</p>
                     <div className="flex">
                       <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
@@ -215,7 +231,7 @@ const HomeScreen: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -223,7 +239,8 @@ const HomeScreen: React.FC = () => {
         <h2 className="mb-8 font-bold text-2xl">Based on your Twitter follows:</h2>
         <div className="flex overflow-auto">
           {twitterReco.map((person, index) => (
-            <div
+            <Link
+              href={`/profile/${person.twitterName.toLowerCase()}`}
               className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
               key={index}
             >
@@ -233,7 +250,7 @@ const HomeScreen: React.FC = () => {
                     <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
-                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
                     <p className="font-bold  text-xl mb-2">{person.name}</p>
                     <div className="flex">
                       <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
@@ -256,7 +273,7 @@ const HomeScreen: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -264,7 +281,8 @@ const HomeScreen: React.FC = () => {
         <h2 className="mb-8 font-bold text-2xl">You're both holding it:</h2>
         <div className="flex overflow-auto">
           {tokensHolders.map((person, index) => (
-            <div
+            <Link
+              href={`/profile/${person.twitterName.toLowerCase()}`}
               className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
               key={index}
             >
@@ -274,7 +292,7 @@ const HomeScreen: React.FC = () => {
                     <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
-                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
                     <p className="font-bold  text-xl mb-2">{person.name}</p>
                     <div className="flex">
                       <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
@@ -297,7 +315,7 @@ const HomeScreen: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -305,7 +323,8 @@ const HomeScreen: React.FC = () => {
         <h2 className="mb-8 font-bold text-2xl">Worlcoin verified:</h2>
         <div className="flex overflow-auto">
           {worldCoinVerified.map((person, index) => (
-            <div
+            <Link
+              href={`/profile/${person.twitterName.toLowerCase()}`}
               className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
               key={index}
             >
@@ -315,7 +334,7 @@ const HomeScreen: React.FC = () => {
                     <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
-                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
                     <p className="font-bold  text-xl mb-2">{person.name}</p>
                     <div className="flex">
                       <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
@@ -337,7 +356,7 @@ const HomeScreen: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
