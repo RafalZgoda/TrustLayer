@@ -21,7 +21,6 @@ export function ConnectBtn() {
   useEffect(() => {
     const setupSafe = async () => {
       if (!wallet) return;
-      if (currentChain != sepolia) return;
 
       console.log("Setting up safe");
       const eip1193provider = await wallet.getEthereumProvider();
@@ -32,10 +31,13 @@ export function ConnectBtn() {
       });
 
       const signer = walletClientToSmartAccountSigner(privyClient);
+      const safeAccountAddress = (localStorage.getItem(`safe-account-${wallet.address}`) as `0x${string}`) ?? undefined;
+      console.log("Safe already created", safeAccountAddress !== undefined, safeAccountAddress);
       const safeAccount = await signerToSafeSmartAccount(privyClient, {
         entryPoint: ENTRYPOINT_ADDRESS_V06,
         signer,
         safeVersion: "1.4.1",
+        address: safeAccountAddress,
       });
 
       const smartAccountClient = createSmartAccountClient({
@@ -51,6 +53,7 @@ export function ConnectBtn() {
       smartAccount = smartAccountClient;
 
       console.log({ safeAccount });
+      localStorage.setItem(`safe-account-${wallet.address}`, safeAccount.address);
       // const tx = await smartAccountClient.sendTransaction({
       //   to: "0x0000000000000000000000000000000000000000",
       //   data: "0x",
@@ -63,7 +66,8 @@ export function ConnectBtn() {
     if (wallets.length > 0) {
       setWallet(wallets[0]);
       currentChain = getChainFromId(wallets[0].chainId.split(":")[1]);
-      setupSafe();
+
+      if (currentChain === sepolia) setupSafe();
     }
   }, [wallet, wallets]);
 
