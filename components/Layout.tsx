@@ -13,12 +13,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="relative">
       <Header />
-      <div className="absolute -top-20 -left-[32rem] -z-10">
+      <div className="absolute -top-20 -left-[32rem] -z-40">
         <BlueCircle />
       </div>
 
       <main className="container mx-auto">{children}</main>
-      <div className="absolute top-40 -right-[32rem] -z-10">
+      <div className="absolute top-40 -right-[32rem] -z-40">
         <BlueCircle />
       </div>
       <Footer />
