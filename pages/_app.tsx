@@ -6,9 +6,9 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { config } from "../config/wagmiProvider";
-import WorldcoinButton from "@/components/WorldCoinButton";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { sepolia } from "viem/chains";
+import Auth from "@/components/Auth";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             })}
           > */}
           <Layout>
-            <WorldcoinButton />
+            <Auth />
             <Component {...pageProps} />
           </Layout>
           {/* </RainbowKitProvider> */}

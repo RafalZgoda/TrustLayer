@@ -1,15 +1,15 @@
-import { useAccount } from "wagmi";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { userDB } from "@/lib/userDb";
+import { usePrivy } from "@privy-io/react-auth";
 const Home: NextPage = () => {
-  const userAccount = useAccount(); // get current account
+  const { user } = usePrivy(); // get current account
   const router = useRouter();
 
   useEffect(() => {
-    const { address } = userAccount;
+    const address = user?.wallet?.address;
     if (!address) return;
 
     const twitterAdrr = userDB.find((user) => user.address.toLowerCase() === address.toLowerCase())?.twitter;
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
     if (twitterId) {
       router.push(`/profile/${twitterId}`);
     }
-  });
+  }, [user]);
   return (
     <>
       <Head>
