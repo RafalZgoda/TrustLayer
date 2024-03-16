@@ -7,6 +7,7 @@ import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { config, INITIAL_CHAIN } from "../config/wagmiProvider";
+import WorldcoinButton from "@/components/WorldCoinButton";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           })}
         >
           <Layout>
+            <WorldcoinButton />
             <Component {...pageProps} />
           </Layout>
         </RainbowKitProvider>
