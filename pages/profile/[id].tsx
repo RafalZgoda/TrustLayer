@@ -11,10 +11,13 @@ const Profile: NextPage = () => {
   const [identity, setIdentity] = useState("");
   const router = useRouter();
   const userAccount = useAccount(); // get current account
+  const [isUserWorlCoinVerified, setIsUserWorlCoinVerified] = useState(false);
 
   const getUser = async (address: string) => {
     const response = await getUserOnChainData(address);
-    setIdentity(response.ENS ?? address);
+    const idty = (response.ENS || address) as string;
+    setIsUserWorlCoinVerified(true);
+    setIdentity(idty);
   };
 
   useEffect(() => {
@@ -35,10 +38,11 @@ const Profile: NextPage = () => {
         userAccount={userAccount}
         identity={identity}
         network={{
-          value: "10,000.00",
+          value: "10,984",
           links: 31,
-          approved: "1,000.00",
+          approved: "2,559",
         }}
+        worldCoinVerified={isUserWorlCoinVerified}
       />
     </>
   );
