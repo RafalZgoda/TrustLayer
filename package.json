@@ -9,9 +9,9 @@
     "lint": "npx eslint . --ext .ts,.tsx"
   },
   "dependencies": {
-    "@alchemy/aa-accounts":"^0.1.1",
-    "@alchemy/aa-alchemy": "^0.1.1",
-    "@alchemy/aa-core": "^0.1.1",
+    "@alchemy/aa-accounts": "^3.1.1",
+    "@alchemy/aa-alchemy": "^3.1.1",
+    "@alchemy/aa-core": "^3.1.1",
     "@heroicons/react": "^2.1.1",
     "@privy-io/react-auth": "^1.59.3",
     "@privy-io/wagmi": "^0.2.1",

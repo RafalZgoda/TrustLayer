@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { Chain, createWalletClient, custom, http } from "viem";
 import { signerToSafeSmartAccount } from "permissionless/accounts";
 import { walletClientToSmartAccountSigner, ENTRYPOINT_ADDRESS_V06, createSmartAccountClient } from "permissionless";
+import { createSmartAccountClient as createAlchemySmartAccountClient } from "@alchemy/aa-core";
 import { getChainFromId } from "@/lib/utils";
 import { PIMLICO_API_KEY, paymasterClient, pimlicoBundlerClient } from "@/lib/safe";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { arbitrumSepolia, baseSepolia, sepolia } from "viem/chains";
+import { baseSepolia, sepolia } from "viem/chains";
 import { WalletClientSigner, type SmartAccountSigner } from "@alchemy/aa-core";
-import { AlchemyProvider } from "@alchemy/aa-alchemy";
-import { getDefaultLightAccountFactory, LightSmartContractAccount } from "@alchemy/aa-accounts";
+import { createLightAccount } from "@alchemy/aa-accounts";
+import { sponsorUserOperation, updateUserOpGasFields } from "@/lib/paymaster";
 
 export let smartAccount: any;
 
@@ -77,23 +78,40 @@ export function ConnectBtn() {
         transport: custom(eip1193provider),
       });
       const privySigner: SmartAccountSigner = new WalletClientSigner(privyClient, "json-rpc");
+      const RPC_URL = process.env.NEXT_PUBLIC_BASE_RPC_URL;
+      const transport = http(RPC_URL);
+      const account = await createLightAccount({
+        transport,
+        chain: baseSepolia,
+        signer: privySigner,
+      });
 
-      const provider = new AlchemyProvider({
-        apiKey: process.env.NEXT_PUBLIC_BASE_ALCHEMY_KEY,
-        chain: chain,
-        entryPointAddress: ENTRYPOINT_ADDRESS_V06,
-      }).connect(
-        (rpcClient: any) =>
-          new LightSmartContractAccount({
-            entryPointAddress: ENTRYPOINT_ADDRESS_V06,
-            chain: rpcClient.chain,
-            owner: privySigner,
-            factoryAddress: getDefaultLightAccountFactory(rpcClient.chain),
-            rpcClient,
-          }),
-      );
+      const smartAccountClient = createAlchemySmartAccountClient({
+        transport,
+        chain: baseSepolia,
+        account: account,
+        gasEstimator: async (struct) => ({
+          ...struct,
+          callGasLimit: BigInt(0),
+          preVerificationGas: BigInt(0),
+          verificationGasLimit: BigInt(0),
+        }),
+        paymasterAndData: {
+          paymasterAndData: async (userop) => {
+            // request sponsorship
+            const paymasterResp = await sponsorUserOperation(userop, RPC_URL!);
+            // replace the gas fields
+            const updatedUserOp = await updateUserOpGasFields(userop, paymasterResp);
+            return {
+              ...updatedUserOp,
+              paymasterAndData: paymasterResp.paymasterAndData,
+            };
+          },
+          dummyPaymasterAndData: () => "0x",
+        },
+      });
 
-      console.log({ provider });
+      smartAccount = smartAccountClient;
     };
 
     if (wallets.length > 0) {
