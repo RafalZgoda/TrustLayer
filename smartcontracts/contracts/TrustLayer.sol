@@ -26,6 +26,7 @@ contract TrustLayer is Ownable {
     uint256 public memberCount = 0;
     mapping(address => Member) public members;
     mapping(address => string) public pendingMembersTrust;
+    mapping(address => string) public pendingMembersTrustAmount;
     
     constructor() Ownable(msg.sender) {
         addMember(msg.sender);
