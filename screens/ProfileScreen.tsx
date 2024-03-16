@@ -1,6 +1,7 @@
 import { Network } from "@/lib/types";
 import { Crown, UsersRound, Receipt } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const ProfileScreen = (params: {
   address: string;
@@ -17,28 +18,28 @@ const ProfileScreen = (params: {
       amount: 100,
       trustDate: "2021-10-10",
       name: "Kartik Talwar",
-      twitterName: "@TheRealKartik",
+      twitterName: "TheRealKartik",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
       amount: 100,
       trustDate: "2021-10-10",
       name: "Stani",
-      twitterName: "@StaniKulechov",
+      twitterName: "StaniKulechov",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
       amount: 100,
       trustDate: "2021-10-10",
       name: "Austin Griffith",
-      twitterName: "@austingriffith",
+      twitterName: "austingriffith",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
       amount: 100,
       trustDate: "2021-10-10",
       name: "Stani",
-      twitterName: "@drakefjustin",
+      twitterName: "drakefjustin",
     },
   ];
 
@@ -48,28 +49,28 @@ const ProfileScreen = (params: {
       amount: 100,
       trustDate: "2021-10-10",
       name: "Kartik Talwar",
-      twitterName: "@TheRealKartik",
+      twitterName: "TheRealKartik",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
       amount: 100,
       trustDate: "2021-10-10",
       name: "Stani",
-      twitterName: "@StaniKulechov",
+      twitterName: "StaniKulechov",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
       amount: 100,
       trustDate: "2021-10-10",
       name: "Austin Griffith",
-      twitterName: "@austingriffith",
+      twitterName: "austingriffith",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
       amount: 100,
       trustDate: "2021-10-10",
       name: "Stani",
-      twitterName: "@drakefjustin",
+      twitterName: "drakefjustin",
     },
   ];
 
@@ -148,7 +149,8 @@ const ProfileScreen = (params: {
         <h2 className="mb-8 font-bold text-2xl">Trusted by:</h2>
         <div className="flex flex-wrap justify-center lg:justify-evenly xl:justify-between">
           {trustedBy.map((person, index) => (
-            <div
+            <Link
+              href={`/profile/${person.twitterName.toLowerCase()}`}
               className="cursor-pointer my-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
               key={index}
             >
@@ -158,7 +160,7 @@ const ProfileScreen = (params: {
                     <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
-                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
                     <p className="font-bold  text-xl mb-2">{person.name}</p>
                     <div className="flex">
                       <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
@@ -181,7 +183,7 @@ const ProfileScreen = (params: {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -189,7 +191,8 @@ const ProfileScreen = (params: {
         <h2 className="mb-8 font-bold text-2xl">Trusting:</h2>
         <div className="flex flex-wrap justify-center lg:justify-evenly xl:justify-between">
           {trusting.map((person, index) => (
-            <div
+            <Link
+              href={`/profile/${person.twitterName.toLowerCase()}`}
               className="cursor-pointer my-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
               key={index}
             >
@@ -199,7 +202,7 @@ const ProfileScreen = (params: {
                     <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
-                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
                     <p className="font-bold  text-xl mb-2">{person.name}</p>
                     <div className="flex">
                       <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
@@ -222,7 +225,7 @@ const ProfileScreen = (params: {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

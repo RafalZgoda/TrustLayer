@@ -6,8 +6,8 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Home - Trust Layer</title>
-        <meta name="description" content="Home - Trust Layer" />
+        <title>Home - Trust Protocol</title>
+        <meta name="description" content="Home - Trust Protocol" />
       </Head>
       <div>
         <HomeScreen />

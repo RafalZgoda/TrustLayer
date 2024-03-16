@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
         </nav>
       </div>
       <div>
-        <p>Trust Layer © 2024</p>
+        <p>Trust Protocol © 2024</p>
       </div>
     </footer>
   );

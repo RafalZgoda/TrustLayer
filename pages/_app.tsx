@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           createOnLogin: "users-without-wallets",
         },
         defaultChain: sepolia,
-        loginMethods: ["twitter", "wallet"],
+        loginMethods: ["twitter", "wallet", "farcaster", "github", "linkedin"],
       }}
     >
       <QueryClientProvider client={queryClient}>
