@@ -1,206 +1,344 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
-import _ from "lodash";
-import { TToken } from "@/lib/types";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 const HomeScreen: React.FC = () => {
-  const [approvedTokens, setApprovedTokens] = useState<TToken[]>([]);
-  const [walletTokens, setWalletTokens] = useState<TToken[]>([]);
+  const router = useRouter();
   const [totalTrustUSD, setTotalTrustUSD] = useState<number>(0);
-  const [totalBorrawableUSD, setTotalBorrawableUSD] = useState<number>(0);
-  const [borrowableTokens, setBorrowableTokens] = useState<TToken[]>([]);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     const total = 10984;
     setTotalTrustUSD(total);
-    setTotalBorrawableUSD(total / 2);
-  }, [approvedTokens]);
-
-  useEffect(() => {
-    const approvedtokens = [
-      {
-        symbol: "USDC",
-        address: "0x",
-        approvedAmount: 735,
-        inWalletAmount: 10000,
-        priceUSD: 1,
-        imgUrl: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
-      },
-      {
-        symbol: "CHZ",
-        address: "0x",
-        approvedAmount: 4723,
-        inWalletAmount: 10000,
-        priceUSD: 0.13,
-        imgUrl: "https://cryptologos.cc/logos/chiliz-chz-logo.png",
-      },
-      {
-        symbol: "stETH",
-        address: "0x",
-        approvedAmount: 0.32,
-        inWalletAmount: 1,
-        priceUSD: 3786,
-        imgUrl: "https://cryptologos.cc/logos/steth-steth-logo.png",
-      },
-    ];
-    const tokensSorted = _.sortBy(approvedtokens, (token: TToken) => token.priceUSD * token.approvedAmount);
-    setApprovedTokens(tokensSorted);
   }, []);
 
-  useEffect(() => {
-    const approvedtokens = [
-      {
-        symbol: "APE",
-        address: "0x",
-        approvedAmount: 0,
-        inWalletAmount: 234,
-        priceUSD: 2.19,
-        imgUrl: "https://cryptologos.cc/logos/apecoin-ape-ape-logo.png",
-      },
-      {
-        symbol: "USDT",
-        address: "0x",
-        approvedAmount: 0,
-        inWalletAmount: 546,
-        priceUSD: 1,
-        imgUrl: "https://cryptologos.cc/logos/tether-usdt-logo.png",
-      },
-    ];
-    const tokensSorted = _.sortBy(approvedtokens, (token: TToken) => token.priceUSD * token.approvedAmount);
-    setWalletTokens(tokensSorted);
-  }, []);
+  function search() {
+    // search for the user
+    if (!searchValue) return;
+    router.push(`/profile/${searchValue.toLowerCase()}`);
+  }
 
-  useEffect(() => {
-    const borrowableTokens = [
-      {
-        symbol: "USDC",
-        address: "0x",
-        approvedAmount: 0,
-        inWalletAmount: 0,
-        priceUSD: 1,
-        imgUrl: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
-      },
-      {
-        symbol: "stETH",
-        address: "0x",
-        approvedAmount: 0,
-        inWalletAmount: 0,
-        priceUSD: 3786,
-        imgUrl: "https://cryptologos.cc/logos/steth-steth-logo.png",
-      },
-    ];
-    setBorrowableTokens(borrowableTokens);
-  }, []);
+  const trustingYou = [
+    {
+      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
+      firstTag: 100,
+      secondTag: "2021-10-10",
+      name: "Kartik Talwar",
+      twitterName: "@TheRealKartik",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
+      firstTag: 100,
+      secondTag: "2021-10-10",
+      name: "Stani",
+      twitterName: "@StaniKulechov",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
+      firstTag: 100,
+      secondTag: "2021-10-10",
+      name: "Austin Griffith",
+      twitterName: "@austingriffith",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
+      firstTag: 100,
+      secondTag: "2021-10-10",
+      name: "Stani",
+      twitterName: "@drakefjustin",
+    },
+  ];
+
+  const twitterReco = [
+    {
+      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+1",
+      name: "Kartik Talwar",
+      twitterName: "@TheRealKartik",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+1",
+      name: "Stani",
+      twitterName: "@StaniKulechov",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+2",
+      name: "Austin Griffith",
+      twitterName: "@austingriffith",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+2",
+      name: "Stani",
+      twitterName: "@drakefjustin",
+    },
+  ];
+
+  const tokensHolders = [
+    {
+      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
+      firstTag: "PSG",
+      secondTag: "N+1",
+      name: "Kartik Talwar",
+      twitterName: "@TheRealKartik",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
+      firstTag: "APE",
+      secondTag: "N+1",
+      name: "Stani",
+      twitterName: "@StaniKulechov",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
+      firstTag: "NOUNS",
+      secondTag: "N+2",
+      name: "Austin Griffith",
+      twitterName: "@austingriffith",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
+      firstTag: "CHZ",
+      secondTag: "N+3",
+      name: "Stani",
+      twitterName: "@drakefjustin",
+    },
+  ];
+
+  const worldCoinVerified = [
+    {
+      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+1",
+      name: "Kartik Talwar",
+      twitterName: "@TheRealKartik",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+1",
+      name: "Stani",
+      twitterName: "@StaniKulechov",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+2",
+      name: "Austin Griffith",
+      twitterName: "@austingriffith",
+    },
+    {
+      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
+      firstTag: 100,
+      secondTag: "N+3",
+      name: "Stani",
+      twitterName: "@drakefjustin",
+    },
+  ];
 
   return (
     <div className="w-full">
-      <h1 className="text-primary-blue text-center font-bold text-5xl mb-8">Dashboard</h1>
       <section className="mb-16 flex flex-wrap justify-evenly">
-        <div className=" border p-10 border-white/20 flex flex-col items-center justify-center rounded-md">
-          <p className="font-bold text-gray-500 text-2xl">TOTAL NETWORK VALUE</p>
-          <p className="font-bold text-3xl">{totalTrustUSD} USD</p>
+        <div className="  p-10  flex flex-col items-center justify-center rounded-md">
+          <p className="text-4xl mb-8 italic">
+            YOUR NETWORK <span className="text-primary-blue">TRUSTS </span> YOU WITH
+          </p>
+          <p className="font-bold text-primary-blue text-5xl">{totalTrustUSD} USD</p>
         </div>
       </section>
       <section className="mb-16">
-        <h2 className="mb-8 font-bold text-2xl">Your approved tokens:</h2>
-        <div className="flex flex-wrap">
-          {approvedTokens.map((token, index) => (
-            <div className="w-96 mr-8" key={index}>
-              <div className="relative border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
-                <Image
-                  className="absolute -top-6 -right-6 opacity-20 -z-10"
-                  width={180}
-                  height={180}
-                  src={token.imgUrl}
-                  alt={token.symbol}
-                />
-                <div className="w-full flex">
-                  <div className="flex flex-col w-2/3 justify-center items-center">
-                    <div className="flex flex-col items-center justify-center w-fit mb-2">
-                      <p className="font-bold text-gray-500 text-xs">APPROVED</p>
-                      <p>{token.approvedAmount}</p>
-                    </div>
-                    <div className="flex flex-col items-center justify-center w-fit">
-                      <p className="font-bold text-gray-500 text-xs">USD VALUE</p>
-                      <p>{token.priceUSD * token.approvedAmount}</p>
-                    </div>
+        <div className="flex flex-col items-center">
+          <p className="font-bold text-2xl mb-8">Search and trust someone :</p>
+          <form>
+            <input
+              placeholder="X handle, address, Farcaster, Lens..."
+              className="border border-white/20 rounded-md p-2 bg-bg-dark-blue focus:outline-none w-96 mr-4"
+              type="text"
+              value={searchValue}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+              }}
+            />
+            <button
+              className="bg-primary-blue text-white px-4 py-2 rounded-md"
+              onClick={(e) => {
+                e.preventDefault();
+                search();
+              }}
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      </section>
+      <section className="mb-16 ">
+        <h2 className="mb-8 font-bold text-2xl flex  items-center">
+          They're trusting you <span className="text-sm font-thin ml-2">(and you don't yet !)</span>
+        </h2>
+        <div className="flex overflow-auto">
+          {trustingYou.map((person, index) => (
+            <div
+              className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
+              key={index}
+            >
+              <div className="flex flex-col ">
+                <div className="flex justify-evenly mb-4 ">
+                  <div className="flex justify-center items-center rounded">
+                    <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
-                  <div className="w-1/3 flex items-center justify-center opacity-1">
-                    <h3 className="text-3xl font-bold">{token.symbol}</h3>
+                  <div className=" flex flex-col justify-center items-center">
+                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold  text-xl mb-2">{person.name}</p>
+                    <div className="flex">
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/x_logo.png" alt="x_logo" />
+                      </div>
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/lens_protocol.png" alt="lens_logo" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex justify-between">
-                <input className="border border-white/20 rounded-md p-2 bg-bg-dark-blue text-center focus:outline-none" type="text" />
-                <button className="bg-primary-blue text-white px-4 py-2 rounded-md">Approve</button>
+                <div className="flex justify-evenly items-center ">
+                  <div className="flex flex-col items-center mr-8">
+                    <p className="text-gray-500 font-light text-[0.75rem]">STAKED</p>
+                    <p className="   font-bold">{person.firstTag} $</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-gray-500 font-light text-[0.75rem]">SINCE</p>
+                    <p className=" font-bold">{person.secondTag}</p>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </section>
-      <section className="mb-16">
-        <h2 className="mb-8 font-bold text-2xl">Tokens to approve:</h2>
-        <div className="flex flex-wrap">
-          {walletTokens.map((token, index) => (
-            <div className="w-96 mr-8" key={index}>
-              <div className="relative border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
-                <Image
-                  className="absolute -top-6 -right-6 opacity-20 -z-10"
-                  width={180}
-                  height={180}
-                  src={token.imgUrl}
-                  alt={token.symbol}
-                />
-                <div className="w-full flex">
-                  <div className="flex flex-col w-2/3 justify-center items-center">
-                    <div className="flex flex-col items-center justify-center w-fit mb-2">
-                      <p className="font-bold text-gray-500 text-xs">APPROVED</p>
-                      <p>{token.inWalletAmount}</p>
-                    </div>
-                    <div className="flex flex-col items-center justify-center w-fit">
-                      <p className="font-bold text-gray-500 text-xs">USD VALUE</p>
-                      <p>{token.priceUSD * token.inWalletAmount}</p>
-                    </div>
+      <section className="mb-16 ">
+        <h2 className="mb-8 font-bold text-2xl">Based on your Twitter follows:</h2>
+        <div className="flex overflow-auto">
+          {twitterReco.map((person, index) => (
+            <div
+              className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
+              key={index}
+            >
+              <div className="flex flex-col ">
+                <div className="flex justify-evenly mb-4 ">
+                  <div className="flex justify-center items-center rounded">
+                    <Image width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
-                  <div className="w-1/3 flex items-center justify-center opacity-1">
-                    <h3 className="text-3xl font-bold">{token.symbol}</h3>
+                  <div className=" flex flex-col justify-center items-center">
+                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold  text-xl mb-2">{person.name}</p>
+                    <div className="flex">
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/x_logo.png" alt="x_logo" />
+                      </div>
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/lens_protocol.png" alt="lens_logo" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex justify-between">
-                <input className="border border-white/20 rounded-md p-2 bg-bg-dark-blue text-center focus:outline-none" type="text" />
-                <button className="bg-primary-blue text-white px-4 py-2 rounded-lg">Approve</button>
+                <div className="flex justify-evenly items-center ">
+                  <div className="flex flex-col items-center mr-8">
+                    <p className="text-gray-500 font-light text-[0.75rem]">FOLLOWERS</p>
+                    <p className="font-bold">{person.firstTag}</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-gray-500 font-light text-[0.75rem]">LINK</p>
+                    <p className=" font-bold">{person.secondTag}</p>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </section>
-      <section className="flex flex-col justify-center items-center mb-16">
-        <div className=" border py-10 px-20 border-white/20 flex flex-col items-center justify-center rounded-md">
-          <p className="font-bold text-gray-500 text-2xl">BORROW</p>
-          <p className="font-bold text-gray-500 text-xs -mt-2">UP TO</p>
-          <p className="font-bold text-3xl clear-start my-8">{totalBorrawableUSD.toFixed(0)} USD</p>
-          <div className="flex justify-between mt-8 w-full min-w-80">
-            <div className="flex">
-              <input className="border border-white/20 rounded-md p-2 bg-bg-dark-blue text-center focus:outline-none" type="text" />
-              <Select>
-                <SelectTrigger className="w-24 focus:outline-none mx-4 bg-bg-dark-blue">
-                  <SelectValue placeholder="Token" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {borrowableTokens.map((token, index) => (
-                      <SelectItem key={index} value={token.symbol}>
-                        {token.symbol}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+      <section className="mb-16 ">
+        <h2 className="mb-8 font-bold text-2xl">You're both holding it:</h2>
+        <div className="flex overflow-auto">
+          {tokensHolders.map((person, index) => (
+            <div
+              className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
+              key={index}
+            >
+              <div className="flex flex-col ">
+                <div className="flex justify-evenly mb-4 ">
+                  <div className="flex justify-center items-center rounded">
+                    <Image width={82} height={82} src={person.photo} alt={person.name} />
+                  </div>
+                  <div className=" flex flex-col justify-center items-center">
+                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold  text-xl mb-2">{person.name}</p>
+                    <div className="flex">
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/x_logo.png" alt="x_logo" />
+                      </div>
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/lens_protocol.png" alt="lens_logo" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-evenly items-center ">
+                  <div className="flex flex-col items-center mr-8">
+                    <p className="text-gray-500 font-light text-[0.75rem]">TOKEN</p>
+                    <p className="   font-bold">{person.firstTag}</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-gray-500 font-light text-[0.75rem]">LINK</p>
+                    <p className=" font-bold">{person.secondTag}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <button className="bg-primary-blue text-white px-4 py-2 rounded-md">Borrow</button>
-          </div>
+          ))}
+        </div>
+      </section>
+      <section className="mb-16 ">
+        <h2 className="mb-8 font-bold text-2xl">Worlcoin verified:</h2>
+        <div className="flex overflow-auto">
+          {worldCoinVerified.map((person, index) => (
+            <div
+              className="cursor-pointer m-2 min-w-96 border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2"
+              key={index}
+            >
+              <div className="flex flex-col ">
+                <div className="flex justify-evenly mb-4 ">
+                  <div className="flex justify-center items-center rounded">
+                    <Image width={82} height={82} src={person.photo} alt={person.name} />
+                  </div>
+                  <div className=" flex flex-col justify-center items-center">
+                    <p className="font-bold text-gray-500 text-sm">{person.twitterName}</p>
+                    <p className="font-bold  text-xl mb-2">{person.name}</p>
+                    <div className="flex">
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/x_logo.png" alt="x_logo" />
+                      </div>
+                      <div className="bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded mr-2">
+                        <Image width={16} height={16} src="/lens_protocol.png" alt="lens_logo" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-evenly items-center ">
+                  <div className="flex flex-col items-center justify-center mr-8">
+                    <Image className="w-12 h-12" src="/worldcoin_verified.png" alt="worldcoin-verified" width={50} height={50} />
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-gray-500 font-light text-[0.75rem]">LINK</p>
+                    <p className=" font-bold">{person.secondTag}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
