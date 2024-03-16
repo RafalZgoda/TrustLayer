@@ -17,7 +17,7 @@ const CircleNetwork: NextPage = () => {
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
-      holding: "PSG Fan Token",
+      holding: "ApeCoin",
       secondTag: "2021-10-10",
       name: "Stani",
       twitterName: "StaniKulechov",
@@ -25,11 +25,11 @@ const CircleNetwork: NextPage = () => {
     },
     {
       photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
-      holding: "PSG Fan Token",
+      holding: "Vitality Fan Token",
       secondTag: "2021-10-10",
       name: "Austin Griffith",
       twitterName: "austingriffith",
-      proximity: "N+1",
+      proximity: "N+2",
     },
     {
       photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
@@ -37,15 +37,18 @@ const CircleNetwork: NextPage = () => {
       secondTag: "2021-10-10",
       name: "Stani",
       twitterName: "drakefjustin",
-      proximity: "N+1",
+      proximity: "N+3",
     },
   ];
 
   const [filteredNetwork, setFilteredNetwork] = useState(network);
 
   const filterProximity = (proximity: string) => {
-    console.log(proximity);
     setFilteredNetwork(network.filter((person) => person.proximity === proximity));
+  };
+
+  const filterHolding = (holding: string) => {
+    setFilteredNetwork(network.filter((person) => person.holding === holding));
   };
 
   return (
@@ -63,21 +66,24 @@ const CircleNetwork: NextPage = () => {
         <div>
           <div className="flex">
             <Select
-              onValueChange={(proximity) => {
-                console.log(proximity);
-                filterProximity(proximity);
+              onValueChange={(holding) => {
+                filterHolding(holding);
               }}
             >
               <SelectTrigger className="w-[110px] mx-auto mt-5">
                 <SelectValue placeholder="Holding" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="psg">PSG</SelectItem>
-                <SelectItem value="vit">VIT</SelectItem>
-                <SelectItem value="ape">APE</SelectItem>
+                <SelectItem value="PSG Fan Token">PSG</SelectItem>
+                <SelectItem value="Vitality Fan Token">VIT</SelectItem>
+                <SelectItem value="ApeCoin">APE</SelectItem>
               </SelectContent>
             </Select>
-            <Select>
+            <Select
+              onValueChange={(proximity) => {
+                filterProximity(proximity);
+              }}
+            >
               <SelectTrigger className="w-[110px] mx-auto mt-5">
                 <SelectValue placeholder="Proximity" />
               </SelectTrigger>
@@ -112,15 +118,15 @@ const CircleNetwork: NextPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-evenly items-center ">
-                  <div className="flex flex-col items-center mr-8">
+                <div className="flex justify-between items-center w-8/12 mx-auto">
+                  <div className="flex flex-col items-start">
                     <p className="text-gray-500 font-light text-[0.75rem]">You both hold</p>
                     <p className="font-bold">
-                      {person.holding} on <span>Chiliz</span>
+                      {person.holding} {person.holding.includes("Fan Token") && " on Chiliz"}
                     </p>
                   </div>
 
-                  <div className="flex flex-col items-center mr-8">
+                  <div className="flex flex-col items-end">
                     <p className="text-gray-500 font-light text-[0.75rem]">Proximity</p>
                     <p className="font-bold">{person.proximity}</p>
                   </div>
