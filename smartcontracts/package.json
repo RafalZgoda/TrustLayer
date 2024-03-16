@@ -20,8 +20,10 @@
     "typechain": "^8.3.0\n"
   },
   "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@openzeppelin/contracts": "^5.0.2",
     "chai": "4.3.7",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1"
   }
 }
