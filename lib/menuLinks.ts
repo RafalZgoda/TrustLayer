@@ -4,6 +4,10 @@ export const menuLinks = [
     route: "/",
   },
   {
+    name: "Tokens",
+    route: "/tokens",
+  },
+  {
     name: "Profile",
     route: "/profile",
   },

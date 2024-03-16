@@ -4,6 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { menuLinks } from "@/lib/menuLinks";
+
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -14,7 +15,7 @@ const Header: React.FC = () => {
       </Link>
 
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-40 min-h-screen ${isMenuOpen ? "absolute" : "hidden"} md:hidden`} // Backdrop
+        className={`fixed inset-0 bg-black bg-opacity-50 z-[90] min-h-screen ${isMenuOpen ? "absolute" : "hidden"} md:hidden`} // Backdrop
         onClick={() => {
           setIsMenuOpen(false);
         }}
@@ -23,7 +24,7 @@ const Header: React.FC = () => {
       <div className="flex items-center justify-center font-bold">
         <nav // Mobile menu
           className={`
-          absolute top-0 right-0 h-full bg-custom-dark-blue shadow-lg z-40
+          absolute top-0 right-0 h-full  bg-bg-dark-blue shadow-lg z-[90]
           transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"}
           transition-transform duration-300 ease-in-out
           flex flex-col items-center justify-start pt-20 space-y-6
@@ -63,7 +64,7 @@ const Header: React.FC = () => {
 
         <ConnectButton showBalance={false} chainStatus="icon" accountStatus="address" />
         <button
-          className="sm:hidden z-50 ml-4" // Button is only visible on mobile
+          className="sm:hidden z-[100] ml-4" // Button is only visible on mobile
           onClick={() => {
             setIsMenuOpen(!isMenuOpen);
           }}
