@@ -1,8 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 const GA_TRACKING_ID = "";
-const title = "dApp Boilerplate - Digital Asset Solutions";
-const description = "The best dApp boilerplate by Digital Asset Solutions.";
+const title = "Trust Layer";
+const description = "Trust Layer.";
 const domain = "digitalassetsolutions.fr";
 const url = `https://${domain}`;
 const socialBannerUrl = "/social_banner.png"; // 1200 x 630 px

@@ -1,19 +1,19 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import HomeScreen from "@/screens/HomeScreen";
+import TokensScreen from "@/screens/TokensScreen";
 
-const Home: NextPage = () => {
+const Tokens: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Home - Trust Layer</title>
+        <title>Tokens - Trust Layer</title>
         <meta name="description" content="Home - Trust Layer" />
       </Head>
       <div>
-        <HomeScreen />
+        <TokensScreen />
       </div>
     </>
   );
 };
 
-export default Home;
+export default Tokens;
