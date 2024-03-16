@@ -1,5 +1,5 @@
 import { createClient } from "viem";
-import { sepolia } from "wagmi/chains";
+import { arbitrumSepolia, sepolia } from "wagmi/chains";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { createConfig, http } from "wagmi";
 import {
@@ -36,7 +36,7 @@ const connectors = connectorsForWallets(
 
 export const config = createConfig({
   connectors,
-  chains: [sepolia],
+  chains: [sepolia, arbitrumSepolia],
   client({ chain }) {
     return createClient({ chain, transport: http() });
   },

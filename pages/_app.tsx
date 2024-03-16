@@ -8,6 +8,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { config } from "../config/wagmiProvider";
 import WorldcoinButton from "@/components/WorldCoinButton";
 import { PrivyProvider } from "@privy-io/react-auth";
+import { sepolia } from "viem/chains";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <PrivyProvider
       appId={PRIVY_APP_ID!}
       config={{
+        embeddedWallets: {
+          createOnLogin: "users-without-wallets",
+        },
+        defaultChain: sepolia,
         loginMethods: ["twitter", "wallet"],
       }}
     >
