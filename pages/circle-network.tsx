@@ -32,7 +32,7 @@ const CircleNetwork: NextPage = () => {
         </div>
 
         <div>
-          <div className="flex z-99">
+          <div className="flex z-99 mb-24">
             <Select
               onValueChange={(holding) => {
                 filterHolding(holding);
