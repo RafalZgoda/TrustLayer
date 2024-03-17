@@ -83,6 +83,9 @@ const HomeScreen: React.FC = () => {
       functionName: "approve",
       args: [trustLayerContractAddress, ethers.parseEther(approveAmount.toString())],
     });
+    const newApprovedToken = walletTokens.find((t) => t.symbol === token);
+    if (newApprovedToken){ setApprovedTokens([...approvedTokens, newApprovedToken])
+    setWalletTokens(walletTokens.filter((t) => t.symbol !== token));}
   };
 
   useEffect(() => {
