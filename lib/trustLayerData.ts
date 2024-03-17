@@ -20,4 +20,6 @@ export const lastApprover = {
   twitterName: "0xNicoalz",
   selectable: false,
   amount: getRandomAmount({ min: 10000, max: 40000 }),
+  holding: "PSG Fan Token",
+  proximity: "N+1",
 };

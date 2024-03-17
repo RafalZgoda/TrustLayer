@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <BlueCircle />
       </div>
 
-      <main className="container mx-auto">{children}</main>
+      <main className="container mx-auto min-h-screen">{children}</main>
       <div className="absolute top-40 -right-[32rem] -z-40">
         <BlueCircle />
       </div>

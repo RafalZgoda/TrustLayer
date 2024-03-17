@@ -10,11 +10,12 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const address = user?.wallet?.address;
+    console.log({ address });
     if (!address) return;
-
     const twitterAdrr = userDB.find((user) => user.address.toLowerCase() === address.toLowerCase())?.twitter;
-    const twitterSmart = userDB.find((user) => user.address.toLowerCase() === address.toLowerCase())?.twitter;
-    const twitterId = twitterAdrr || twitterSmart;
+    const twitterPrivy = userDB.find((user) => user.privyAddress.toLowerCase() === address.toLowerCase())?.twitter;
+    const twitterId = twitterAdrr || twitterPrivy;
+    console.log({ twitterId, twitterPrivy });
     if (twitterId) {
       router.push(`/profile/${twitterId}`);
     }

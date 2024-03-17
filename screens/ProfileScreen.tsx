@@ -5,11 +5,12 @@ import { twitterUsers, TTwitterUser, getTrustPeople } from "@/lib/twitterApi";
 import { getRank, getTrustedByTotalValue, getLastAprover } from "@/lib/trustLayerData";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useWriteContract, useTransactionReceipt } from "wagmi";
+import { useWriteContract, useTransactionReceipt, useSimulateContract } from "wagmi";
 import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
 import { type Address } from "viem";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import _ from "lodash";
+import { simulateContract } from "viem/actions";
 const ProfileScreen = () => {
   const router = useRouter();
   const [isUserWorlCoinVerified, setIsUserWorlCoinVerified] = useState(false);
@@ -17,7 +18,7 @@ const ProfileScreen = () => {
   const [trustedBy, setTrustedBy] = useState<TTwitterUser[]>([]);
   const [trusting, setTrusting] = useState<TTwitterUser[]>([]);
   const [isMe, setIsMe] = useState(false);
-  const { writeContract, isPending, data: txHash } = useWriteContract(); // => to interact with contract & states
+  const { writeContract, isPending, data: txHash, isError, error, context } = useWriteContract(); // => to interact with contract & states
   const [contractAddress, setContractAddress] = useState<Address | undefined>(); // => the address to use
   const { authenticated } = usePrivy(); // get current account // get current account
   const { id } = router.query as { id: string };
@@ -33,8 +34,11 @@ const ProfileScreen = () => {
   });
 
   useEffect(() => {
-    if (id.toLowerCase() === "0xnicoalz") {
+    console.log({ id });
+    if (id?.toLowerCase() === "0xnicoalz") {
       setIsMe(true);
+    } else {
+      setIsMe(false);
     }
     setMyRank(getRank(id));
     setMyValue(getTrustedByTotalValue(trustedBy));
@@ -59,7 +63,7 @@ const ProfileScreen = () => {
   }, [lastApprover]);
 
   useEffect(() => {
-    const { trustedBy, trustingPeople } = getTrustPeople(id);
+    const { trustedBy, trustingPeople } = getTrustPeople(isMe ? "true" : id);
     setTrustedBy(trustedBy);
     setTrusting(trustingPeople);
   }, [id, setTrustedBy]);
@@ -87,11 +91,12 @@ const ProfileScreen = () => {
     setContractAddress(addressOfChainId); // set it
   }, [authenticated, wallets]);
 
-  // borrow : params : addresstoken & amount
-
   const trust = ({ amountTrust }: { amountTrust: number }) => {
+    console.log({ contractAddress, id, amountTrust });
     if (!contractAddress) return; // if no address stop
     if (!id) return; // check params
+    console.log("writeContract");
+    //simulateContract({}); // simulate the contract
     writeContract({
       abi: TrustLayerContract.abi,
       address: contractAddress,
@@ -206,7 +211,7 @@ const ProfileScreen = () => {
       )}
       {!isMe && authenticated && trustedDone && id == "therealkartik" && (
         <section className="mb-16 flex justify-center items-center bg-green-700 w-fit m-auto rounded-lg">
-          <div className="mx-4 my-2">YOU ABSOLUTE TRUST HIM</div>
+          <div className="mx-4 my-2">YOU TRUST HIM</div>
         </section>
       )}
       <section className="mb-16 ">

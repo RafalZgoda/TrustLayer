@@ -7,6 +7,8 @@ export interface TTwitterUser {
   twitterName: string;
   selectable: boolean;
   amount: string;
+  holding: string;
+  proximity: string;
 }
 
 export const twitterUsers = [
@@ -125,9 +127,30 @@ export const twitterUsers = [
 export const getTrustPeople = (id: string): { trustedBy: TTwitterUser[]; trustingPeople: TTwitterUser[] } => {
   const userSelectable = twitterUsers.filter((user) => user.selectable);
   const useswWithoutMe = userSelectable.filter((user) => user.twitterName.toLowerCase() !== id.toLowerCase());
-  const orderedByAmount = _.orderBy(useswWithoutMe, ["amount"], ["desc"]);
+  const shuflled = _.shuffle(useswWithoutMe);
   const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
-  const trustedBy = orderedByAmount.slice(0, random);
+  const sliced = shuflled.slice(0, random);
+  const orderedByAmount = _.orderBy(sliced, ["amount"], ["desc"]);
+  const trustedOrder = orderedByAmount
+  const kartik = twitterUsers.find((user) => user.twitterName.toLowerCase() === "TheRealKartik".toLowerCase());
+  if (kartik && id === "true") {
+    trustedOrder.push(kartik);
+  }
+  const trustedBy = trustedOrder.slice(0, random);
   const trustingPeople = orderedByAmount.slice(random - 2, random + 2);
   return { trustedBy, trustingPeople };
+};
+
+export const getRecommandPeople = (id: string): TTwitterUser[] => {
+  const userSelectable = twitterUsers.filter((user) => user.selectable);
+  const useswWithoutMe = userSelectable.filter((user) => user.twitterName.toLowerCase() !== id.toLowerCase());
+  const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
+  const shuflled = _.shuffle(useswWithoutMe);
+  const sliced = shuflled.slice(0, random);
+  const kartik = twitterUsers.find((user) => user.twitterName.toLowerCase() === "TheRealKartik".toLowerCase());
+  if (kartik && id === "true") {
+    sliced.push(kartik);
+  }
+  const orderedByAmount = _.orderBy(sliced, ["amount"], ["desc"]);
+  return orderedByAmount;
 };
