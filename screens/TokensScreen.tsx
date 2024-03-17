@@ -11,7 +11,7 @@ import { useWriteContract, useTransactionReceipt } from "wagmi";
 import { type Address } from "viem";
 import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
 import { ethers } from "ethers";
-
+import { USDC } from "@/contracts/Tokens";
 const HomeScreen: React.FC = () => {
   const { authenticated } = usePrivy();
   const { wallets } = useWallets();
@@ -76,16 +76,17 @@ const HomeScreen: React.FC = () => {
     const EIPchainId = wallets[0].chainId; // get the chainId
     const chainId = EIPchainId.split(":")[1];
     if (!chainId) return;
-    const erc20Address = ERC20Contract.address[Number(chainId)];
+    const erc20Address = USDC.address[Number(chainId)];
+    console.log("erc20Address", erc20Address);
     writeContract({
-      abi: ERC20Contract.abi,
+      abi: USDC.abi,
       address: erc20Address,
       functionName: "approve",
       args: [trustLayerContractAddress, ethers.parseEther(approveAmount.toString())],
     });
-    const newApprovedToken = walletTokens.find((t) => t.symbol === token);
-    if (newApprovedToken){ setApprovedTokens([...approvedTokens, newApprovedToken])
-    setWalletTokens(walletTokens.filter((t) => t.symbol !== token));}
+    // const newApprovedToken = walletTokens.find((t) => t.symbol === token);
+    // if (newApprovedToken){ setApprovedTokens([...approvedTokens, newApprovedToken])
+    // setWalletTokens(walletTokens.filter((t) => t.symbol !== token));}
   };
 
   useEffect(() => {

@@ -622,7 +622,7 @@ const ERC20Abi =[
 ]
 
 
-const USDCAddressArbitrum = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
+const USDCAddressArbitrum = "0xaf88d065e77c8cc2239327c5edb3a432268e5831" as Address;
 const USDCAddressSepolia = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
 const USDCAddressCelo = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const USDCAddressChiliz = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
@@ -634,7 +634,7 @@ export const USDC: TContract = {
     [chainIds.arbitrum]: USDCAddressArbitrum, // chainId => address
     [chainIds.sepolia]: USDCAddressSepolia, // chainId => address
     [chainIds.celo]: USDCAddressCelo, // chainId => address
-    [chainIds.chiliz]: USDCAddressChiliz, // chainId => address
+    [chainIds.spicy]: USDCAddressChiliz, // chainId => address
     [chainIds.base]: USDCAddressBase // chainId => address
   },
 };
@@ -651,15 +651,15 @@ export const APE: TContract = {
     [chainIds.arbitrum]: APEAddressArbitrum, // chainId => address
     [chainIds.sepolia]: APEAddressSepolia, // chainId => address
     [chainIds.celo]: APEAddressCelo, // chainId => address
-    [chainIds.chiliz]: APEAddressChiliz, // chainId => address
+    [chainIds.spicy]: APEAddressChiliz, // chainId => address
     [chainIds.base]: APEAddressBase // chainId => address
   },
 };
 
-const PSGAddressArbitrum = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
+const PSGAddressArbitrum = "0xadef0b21a3093e5f52bc171c8767286b87d4a4a0" as Address;
 const PSGAddressSepolia = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const PSGAddressCelo = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
-const PSGAddressChiliz = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
+const PSGAddressChiliz = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address; // good
 const PSGAddressBase = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 
 export const PSG: TContract = {
@@ -668,7 +668,7 @@ export const PSG: TContract = {
     [chainIds.arbitrum]: PSGAddressArbitrum, // chainId => address
     [chainIds.sepolia]: PSGAddressSepolia, // chainId => address
     [chainIds.celo]: PSGAddressCelo, // chainId => address
-    [chainIds.chiliz]: PSGAddressChiliz, // chainId => address
+    [chainIds.spicy]: PSGAddressChiliz, // chainId => address
     [chainIds.base]: PSGAddressBase // chainId => address
   },
 };

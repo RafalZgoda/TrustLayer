@@ -162,6 +162,7 @@ export function ConnectBtn() {
               <SelectItem value="11155111">Ethereum</SelectItem>
               <SelectItem value="42161">Arbitrum</SelectItem>
               <SelectItem value="84532">Base</SelectItem>
+              <SelectItem value="88882">Spicy</SelectItem>
             </SelectContent>
           </Select>
         </>
