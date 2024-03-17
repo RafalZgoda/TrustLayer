@@ -31,7 +31,7 @@ const HomeScreen: React.FC = () => {
 
   useEffect(() => {
     const id = "";
-    setTrustingYou(getRecommandPeople(id));
+    setTrustingYou(getRecommandPeople("true"));
     setTwitterReco(getRecommandPeople(id));
     setTokensHolders(getRecommandPeople(id));
     setWorldCoinVerified(getRecommandPeople(id));
@@ -260,7 +260,7 @@ const HomeScreen: React.FC = () => {
         </>
       ) : (
         <div className="flex flex-col items-center justify-center h-screen">
-          <p className="text-3xl mb-8 -mt-36">You need to sign in to access this page</p>
+          <p className="text-3xl mb-8 -mt-36 text-center">You need to sign in to access this page</p>
         </div>
       )}
     </div>

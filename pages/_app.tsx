@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       appId={PRIVY_APP_ID!}
       config={{
         embeddedWallets: {
-          createOnLogin: "users-without-wallets",
+          createOnLogin: "all-users",
         },
         defaultChain: arbitrum,
         loginMethods: ["twitter", "wallet", "farcaster", "github", "linkedin"],

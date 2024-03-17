@@ -131,7 +131,12 @@ export const getTrustPeople = (id: string): { trustedBy: TTwitterUser[]; trustin
   const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
   const sliced = shuflled.slice(0, random);
   const orderedByAmount = _.orderBy(sliced, ["amount"], ["desc"]);
-  const trustedBy = orderedByAmount.slice(0, random);
+  const trustedOrder = orderedByAmount
+  const kartik = twitterUsers.find((user) => user.twitterName.toLowerCase() === "TheRealKartik".toLowerCase());
+  if (kartik && id === "true") {
+    trustedOrder.push(kartik);
+  }
+  const trustedBy = trustedOrder.slice(0, random);
   const trustingPeople = orderedByAmount.slice(random - 2, random + 2);
   return { trustedBy, trustingPeople };
 };
@@ -142,6 +147,10 @@ export const getRecommandPeople = (id: string): TTwitterUser[] => {
   const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
   const shuflled = _.shuffle(useswWithoutMe);
   const sliced = shuflled.slice(0, random);
+  const kartik = twitterUsers.find((user) => user.twitterName.toLowerCase() === "TheRealKartik".toLowerCase());
+  if (kartik && id === "true") {
+    sliced.push(kartik);
+  }
   const orderedByAmount = _.orderBy(sliced, ["amount"], ["desc"]);
   return orderedByAmount;
 };
