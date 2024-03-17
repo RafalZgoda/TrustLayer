@@ -8,7 +8,7 @@ import { createSmartAccountClient as createAlchemySmartAccountClient } from "@al
 import { getChainFromId } from "@/lib/utils";
 import { PIMLICO_API_KEY, paymasterClient, pimlicoBundlerClient } from "@/lib/safe";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { baseSepolia, chiliz, sepolia } from "viem/chains";
+import { baseSepolia, chiliz, sepolia, celo } from "viem/chains";
 import { WalletClientSigner, type SmartAccountSigner } from "@alchemy/aa-core";
 import { createLightAccount } from "@alchemy/aa-accounts";
 import { sponsorUserOperation, updateUserOpGasFields } from "@/lib/paymaster";
@@ -167,6 +167,7 @@ export function ConnectBtn() {
               <SelectItem value="42161">Arbitrum</SelectItem>
               <SelectItem value="84532">Base</SelectItem>
               <SelectItem value="88882">Spicy</SelectItem>
+              <SelectItem value="42220">Celo</SelectItem>
             </SelectContent>
           </Select>
         </>

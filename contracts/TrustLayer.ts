@@ -301,7 +301,7 @@ export const TrustLayer: TContract = {
     [chainIds.arbitrum]: contractsAddressArbitrum, // chainId => address
     [chainIds.sepolia]: contractsAddressSepolia, // chainId => address
     [chainIds.celo]: contractsAddressCelo, // chainId => address
-    [chainIds.chiliz]: contractsAddressChiliz, // chainId => address
+    [chainIds.spicy]: contractsAddressChiliz, // chainId => address
     [chainIds.base]: contractsAddressBase, // chainId => address
     [chainIds.baseSepolia]: contractsAddressBaseSepolia // chainId => address
   },

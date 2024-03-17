@@ -260,7 +260,7 @@ const HomeScreen: React.FC = () => {
         </>
       ) : (
         <div className="flex flex-col items-center justify-center h-screen">
-          <p className="text-3xl mb-8 -mt-36 text-center">You need to sign in to access this page</p>
+          <p className="text-3xl mb-8 -mt-36 text-center">Sign in to start</p>
         </div>
       )}
     </div>

@@ -56,7 +56,7 @@ const connectors = connectorsForWallets(
 
 export const config = createConfig({
   connectors,
-  chains: [sepolia, arbitrum, baseSepolia, spicy, myCustomChain],
+  chains: [sepolia, arbitrum, baseSepolia, spicy, myCustomChain, celo],
   client({ chain }) {
     return createClient({ chain, transport: http() });
   },
