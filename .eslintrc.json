@@ -11,6 +11,8 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "react", "import", "prettier"],
   "rules": {
+    "prettier/prettier": "off", 
+    "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
@@ -19,7 +21,8 @@
     "@typescript-eslint/no-var-requires": "warn",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off", 
+    "react/prop-types": "off", 
     "@typescript-eslint/consistent-indexed-object-style": "warn",
     "@typescript-eslint/consistent-type-definitions": "warn",
     "@typescript-eslint/no-base-to-string": "warn",
