@@ -11,7 +11,7 @@ import { useWriteContract, useTransactionReceipt } from "wagmi";
 import { type Address } from "viem";
 import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
 import { ethers } from "ethers";
-import { USDC } from "@/contracts/Tokens";
+import { USDC, PSG, APE } from "@/contracts/Tokens";
 const HomeScreen: React.FC = () => {
   const { authenticated } = usePrivy();
   const { wallets } = useWallets();

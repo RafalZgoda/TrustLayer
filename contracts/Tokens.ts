@@ -639,7 +639,7 @@ export const USDC: TContract = {
   },
 };
 
-const APEAddressArbitrum = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
+const APEAddressArbitrum = "0x4d221c3a5c10a74c377a5909658e2a639b6edb5c" as Address;
 const APEAddressSepolia = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const APEAddressCelo = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const APEAddressChiliz = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
