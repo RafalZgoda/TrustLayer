@@ -77,7 +77,7 @@ const ProfileScreen = () => {
   }, [id, setTrustedBy]);
 
   useEffect(() => {
-    setIsUserWorlCoinVerified(true);
+    setIsUserWorlCoinVerified(localStorage.getItem("worldcoin-verified") === "true");
     const user = twitterUsers.find((user) => user.twitterName.toLowerCase() === id.toLowerCase());
     if (user) {
       setImgUrl(user.photo);
