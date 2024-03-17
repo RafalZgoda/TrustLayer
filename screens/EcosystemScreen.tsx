@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { MoveRight } from "lucide-react";
 const EcosystemScreen: React.FC = () => {
   const ecosystemApps = [
     {
@@ -26,13 +27,20 @@ const EcosystemScreen: React.FC = () => {
       description: "Bet with your trust network on sports events.",
       imgUrl: "/frens_bet.png",
     },
+    {
+      name: "Reputa Score",
+      tag: "SOCIAL, REPUTATION",
+      description:
+        "Reputation Score: Monitor your trustworthiness score within the ecosystem based on multiple onchain and offchain factors. Exclusive Airdrops: Access special token rewards for highly trusted users. Community Notes: Trusted users can issue notes on others' historical actions.",
+      imgUrl: "/reputascore.png",
+    },
   ];
 
   return (
     <div className="w-full ">
       <section className="mb-16">
         <h2 className="mb-8 font-bold text-2xl">Ecosystem apps:</h2>
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center mb-16">
           {ecosystemApps.map((app, index) => (
             <div className="m-2 w-[36rem]" key={index}>
               <div className=" border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
@@ -66,6 +74,13 @@ const EcosystemScreen: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="mb-8 font-bold text-2xl text-center ">Want to list your Trust Protocol app ?</h2>
+          <button className="bg-primary-blue hover:bg-primary-blue/70 p-2 cursor-pointer rounded flex items-center justify-center px-4 py-2">
+            Submit your app
+            <MoveRight className="ml-2" />
+          </button>
         </div>
       </section>
     </div>

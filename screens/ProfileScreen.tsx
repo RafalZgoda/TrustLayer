@@ -1,78 +1,45 @@
-import { Network } from "@/lib/types";
 import { Crown, UsersRound, Receipt } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { twitterUsers, getRank, getTrustedByTotalValue, TTwitterUser } from "@/lib/twitterApi";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import _ from "lodash";
 
-const ProfileScreen = (params: {
-  address: string;
-  twitter: string;
-  smartAddress: string;
-  network: Network;
-  worldCoinVerified: boolean;
-}) => {
-  const { twitter, network } = params;
+const ProfileScreen = () => {
+  const router = useRouter();
+  const [isUserWorlCoinVerified, setIsUserWorlCoinVerified] = useState(false);
+  const [imgUrl, setImgUrl] = useState("");
+  const [trustedBy, setTrustedBy] = useState<TTwitterUser[]>([]);
+  const [trusting, setTrusting] = useState<TTwitterUser[]>([]);
+  const [isMe, setIsMe] = useState(false);
 
-  const trustedBy = [
-    {
-      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Kartik Talwar",
-      twitterName: "TheRealKartik",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "StaniKulechov",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Austin Griffith",
-      twitterName: "austingriffith",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "drakefjustin",
-    },
-  ];
+  const { id } = router.query as { id: string };
 
-  const trusting = [
-    {
-      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Kartik Talwar",
-      twitterName: "TheRealKartik",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "StaniKulechov",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Austin Griffith",
-      twitterName: "austingriffith",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "drakefjustin",
-    },
-  ];
+  useEffect(() => {
+    if (id.toLowerCase() === "0xnicoalz") {
+      setIsMe(true);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const useswWithoutMe = twitterUsers.filter((user) => user.twitterName.toLowerCase() !== id.toLowerCase());
+    const orderedByAmount = _.orderBy(useswWithoutMe, ["amount"], ["desc"]);
+    // const random between 3 and 7
+    const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
+    const slicedPeople = orderedByAmount.slice(0, random);
+    setTrustedBy(slicedPeople);
+    const trustingPeople = orderedByAmount.slice(random - 2, random + 2);
+    setTrusting(trustingPeople);
+  }, [id, setTrustedBy]);
+
+  useEffect(() => {
+    setIsUserWorlCoinVerified(true);
+    const user = twitterUsers.find((user) => user.twitterName.toLowerCase() === id.toLowerCase());
+    if (user) {
+      setImgUrl(user.photo);
+    }
+  }, [id]);
 
   return (
     <div className="w-full flex flex-col">
@@ -80,15 +47,10 @@ const ProfileScreen = (params: {
         <div className="max-w-10/12 flex flex-col">
           <div className="flex relative flex-col md:flex-row items-center justify-center ">
             <div className="md:hidden flex justify-evenly items-center mb-4 w-full">
-              <div className="flex justify-center items-center rounded">
-                <Image
-                  width={82}
-                  height={82}
-                  src="https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg"
-                  alt="user img"
-                />
+              <div className="flex justify-center items-center ">
+                <Image className="rounded-xl" width={82} height={82} src={imgUrl} alt="user img" />
               </div>
-              {params.worldCoinVerified && (
+              {isUserWorlCoinVerified && (
                 <div className="md:hidden flex flex-col justify-start items-center w-32 mb-4">
                   <div className="flex flex-col items-center">
                     <p className="text-gray-500 font-bold text-[0.5rem]">WORLDCOIN VERIFIED</p>
@@ -99,18 +61,13 @@ const ProfileScreen = (params: {
             </div>
             <div className="flex items-start  mb-10">
               <div className="hidden md:flex justify-center items-center rounded ">
-                <Image
-                  width={82}
-                  height={82}
-                  src="https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg"
-                  alt="user img"
-                />
+                <Image className="rounded-xl" width={82} height={82} src={imgUrl} alt="user img" />
               </div>
               <div>
-                <h1 className={`w-fit font-bold text-center border border-white/20 p-5 mx-8 text-3xl"}`}>@{twitter}</h1>
+                <h1 className={`w-fit font-bold text-center border border-white/20 p-5 mx-8 text-3xl"}`}>@{id}</h1>
               </div>
 
-              {params.worldCoinVerified && (
+              {isUserWorlCoinVerified && (
                 <div className="hidden md:flex flex-col items-center">
                   <p className="text-gray-500 font-bold text-[0.5rem]">WORLDCOIN VERIFIED</p>
                   <Image className="w-12 h-12" src="/worldcoin_verified.png" alt="worldcoin-verified" width={50} height={50} />
@@ -126,10 +83,11 @@ const ProfileScreen = (params: {
                 <div className="flex justify-center items-center">
                   <div className="mx-5">
                     <UsersRound className="mx-auto mb-3" size={50} />
-                    {network.links}
+                    {trustedBy.length}
                   </div>
                   <div className="mx-5">
-                    <Receipt className="mx-auto mb-3" size={50} />${network.approved}
+                    <Receipt className="mx-auto mb-3" size={50} />
+                    {getTrustedByTotalValue(trustedBy)}$
                   </div>
                 </div>
               </h1>
@@ -139,12 +97,26 @@ const ProfileScreen = (params: {
               <h1 className="text-xl font-bold">
                 <p className="text-gray-500 font-bold mb-4">RANK</p>
                 <Crown className="mx-auto mb-3" size={50} />
-                TOP 2%
+                TOP {getRank(id)}%
               </h1>
             </div>
           </div>
         </div>
       </div>
+      {isMe && (
+        <section className="mb-16 flex flex-col items-center justify-center ">
+          <h2 className="mb-8 font-bold text-2xl">Do you want to trust him ?</h2>
+          <p>
+            <input type="checkbox" className="mr-2" />
+            By trusting <span className="text-primary-blue">@{id}</span> you will allow him to borrow your tokens and interract with you on
+            all Trust Protocol Dapps
+          </p>
+          <div className="flex mt-8">
+            <button className="bg-violet-700 text-white px-4 py-2 rounded-md mx-4 cursor-pointer">Basic Trust</button>
+            <button className="bg-primary-blue text-white px-4 py-2 rounded-md mx-4 cursor-pointer">Absolute Trust</button>
+          </div>
+        </section>
+      )}
       <section className="mb-16 ">
         <h2 className="mb-8 font-bold text-2xl">Trusted by:</h2>
         <div className="flex flex-wrap justify-center lg:justify-evenly xl:justify-between">
@@ -157,7 +129,7 @@ const ProfileScreen = (params: {
               <div className="flex flex-col ">
                 <div className="flex justify-evenly mb-4 ">
                   <div className="flex justify-center items-center rounded">
-                    <Image width={82} height={82} src={person.photo} alt={person.name} />
+                    <Image className="rounded-xl" width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
                     <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
@@ -174,12 +146,12 @@ const ProfileScreen = (params: {
                 </div>
                 <div className="flex justify-evenly items-center ">
                   <div className="flex flex-col items-center mr-8">
-                    <p className="text-gray-500 font-light text-[0.75rem]">STAKED</p>
-                    <p className="   font-bold">{person.amount} $</p>
+                    <p className="text-gray-500 font-light text-[0.75rem]">WITH</p>
+                    <p className="font-bold">{person.amount} $</p>
                   </div>
                   <div className="flex flex-col items-center">
                     <p className="text-gray-500 font-light text-[0.75rem]">SINCE</p>
-                    <p className=" font-bold">{person.trustDate}</p>
+                    <p className=" font-bold">{person.trustDate} days</p>
                   </div>
                 </div>
               </div>
@@ -199,7 +171,7 @@ const ProfileScreen = (params: {
               <div className="flex flex-col ">
                 <div className="flex justify-evenly mb-4 ">
                   <div className="flex justify-center items-center rounded">
-                    <Image width={82} height={82} src={person.photo} alt={person.name} />
+                    <Image className="rounded-xl" width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
                     <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
@@ -216,7 +188,7 @@ const ProfileScreen = (params: {
                 </div>
                 <div className="flex justify-evenly items-center ">
                   <div className="flex flex-col items-center mr-8">
-                    <p className="text-gray-500 font-light text-[0.75rem]">STAKED</p>
+                    <p className="text-gray-500 font-light text-[0.75rem]">WITH</p>
                     <p className="   font-bold">{person.amount} $</p>
                   </div>
                   <div className="flex flex-col items-center">
