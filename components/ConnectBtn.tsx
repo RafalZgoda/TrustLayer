@@ -99,7 +99,7 @@ export function ConnectBtn() {
         paymasterAndData: {
           paymasterAndData: async (userop) => {
             // request sponsorship
-            const paymasterResp = await sponsorUserOperation(userop, RPC_URL);
+            const paymasterResp = await sponsorUserOperation(userop, RPC_URL || "");
             // replace the gas fields
             const updatedUserOp = await updateUserOpGasFields(userop, paymasterResp);
             return {
