@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { MoveRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 const EcosystemScreen: React.FC = () => {
   const ecosystemApps = [
     {
@@ -8,6 +9,7 @@ const EcosystemScreen: React.FC = () => {
       tag: "SOCIAL, CHAT, CONNECTIONS",
       description: "Connect with your trust network and talk to them.",
       imgUrl: "/circle_network.png",
+      url: "/circle-network"
     },
     {
       name: "Shield",
@@ -66,7 +68,9 @@ const EcosystemScreen: React.FC = () => {
                       <Image width={16} height={16} src="/github_logo.png" alt="github_logo" />
                     </div>
                   </div>
-                  <div className="flex bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded">
+                  <div className="flex bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded" onClick={()=> 
+                    window.open(app.url ?? "", "_blank")
+                  }>
                     <p>Open</p>
                     <ArrowTopRightOnSquareIcon className="w-5 font-bold ml-2" />
                   </div>
