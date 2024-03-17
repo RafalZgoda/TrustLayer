@@ -15,7 +15,7 @@ export const getLastAprover = (id: string) => {
 
 export const lastApprover = {
   photo: "https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg",
-  trustDate: getRandomDuration({ min: 100, max: 400 }),
+  trustDate: "1",
   name: "Nicoalz",
   twitterName: "0xNicoalz",
   selectable: false,

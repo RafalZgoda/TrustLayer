@@ -14,7 +14,7 @@ export interface TTwitterUser {
 export const twitterUsers = [
   {
     photo: "https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg",
-    trustDate: getRandomDuration({ min: 100, max: 400 }),
+    trustDate: "1",
     name: "Nicoalz",
     twitterName: "0xNicoalz",
     selectable: false,
@@ -131,7 +131,7 @@ export const getTrustPeople = (id: string): { trustedBy: TTwitterUser[]; trustin
   const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
   const sliced = shuflled.slice(0, random);
   const orderedByAmount = _.orderBy(sliced, ["amount"], ["desc"]);
-  const trustedOrder = orderedByAmount
+  const trustedOrder = orderedByAmount;
   const kartik = twitterUsers.find((user) => user.twitterName.toLowerCase() === "TheRealKartik".toLowerCase());
   if (kartik && id === "true") {
     trustedOrder.push(kartik);
