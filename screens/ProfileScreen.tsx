@@ -25,7 +25,6 @@ const ProfileScreen = () => {
   useEffect(() => {
     const useswWithoutMe = twitterUsers.filter((user) => user.twitterName.toLowerCase() !== id.toLowerCase());
     const orderedByAmount = _.orderBy(useswWithoutMe, ["amount"], ["desc"]);
-    // const random between 3 and 7
     const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
     const slicedPeople = orderedByAmount.slice(0, random);
     setTrustedBy(slicedPeople);
