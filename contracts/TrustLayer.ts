@@ -5,52 +5,20 @@ import { TContract } from "./types";
 
 const TrustLayerAbi =[
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "allowance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	},
 	{
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "spender",
+				"name": "owner",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
 			}
 		],
-		"name": "approve",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"name": "OwnableInvalidOwner",
+		"type": "error"
 	},
 	{
 		"inputs": [
@@ -60,7 +28,31 @@ const TrustLayerAbi =[
 				"type": "address"
 			}
 		],
-		"name": "balanceOf",
+		"name": "OwnableUnauthorizedAccount",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "BORROW_LIMIT_PERCENT",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -75,16 +67,11 @@ const TrustLayerAbi =[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "to",
+				"name": "_mainWallet",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
 			}
 		],
-		"name": "mint",
+		"name": "addMember",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -93,28 +80,167 @@ const TrustLayerAbi =[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
+				"name": "_token",
 				"type": "address"
 			},
 			{
 				"internalType": "uint256",
-				"name": "value",
+				"name": "_amount",
 				"type": "uint256"
 			}
 		],
-		"name": "transferFrom",
+		"name": "borrow",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_borrower",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_lender",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_token",
+				"type": "address"
+			}
+		],
+		"name": "getMaxBorrowable",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "memberCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "members",
 		"outputs": [
 			{
 				"internalType": "bool",
-				"name": "",
+				"name": "isMember",
 				"type": "bool"
+			},
+			{
+				"internalType": "address",
+				"name": "mainWallet",
+				"type": "address"
 			}
 		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "payBackAllLoans",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_loanId",
+				"type": "uint256"
+			}
+		],
+		"name": "payBackIndividualLoan",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_member",
+				"type": "address"
+			}
+		],
+		"name": "removeMember",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_member",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "setTrust",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
