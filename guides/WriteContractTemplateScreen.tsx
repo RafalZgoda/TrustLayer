@@ -35,7 +35,7 @@ const WriteContractTemplateScreen: React.FC = () => {
       abi: contractTemplate.abi,
       address: contractAddress,
       functionName: "mint",
-      args: [mintTo, ethers.utils.parseEther(mintAmount.toString())],
+      args: [mintTo, ethers.parseEther(mintAmount.toString())],
     });
   };
 

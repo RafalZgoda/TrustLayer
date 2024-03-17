@@ -1,3 +1,5 @@
+import _ from "lodash";
+import { getRandomAmount, getRandomDuration } from "./calculation";
 export interface TTwitterUser {
   photo: string;
   trustDate: string;
@@ -6,24 +8,6 @@ export interface TTwitterUser {
   selectable: boolean;
   amount: string;
 }
-
-export const getRandomAmount = ({ min, max }: { min: number; max: number }): string => {
-  const num = Math.floor(Math.random() * (max - min + 1)) + min;
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-};
-
-export const getRandomDuration = ({ min, max }: { min: number; max: number }): string => {
-  const num = Math.floor(Math.random() * (max - min + 1)) + min;
-  return num.toString();
-};
-
-export const getRank = (_user: string): string => {
-  return getRandomAmount({ min: 1, max: 8 });
-};
-
-export const getTrustedByTotalValue = (array: TTwitterUser[]): string => {
-  return getRandomAmount({ min: array.length * 30000, max: array.length * 60000 });
-};
 
 export const twitterUsers = [
   {
@@ -58,15 +42,6 @@ export const twitterUsers = [
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
   },
-  {
-    photo: "https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg",
-    trustDate: getRandomDuration({ min: 100, max: 400 }),
-    name: "Nicoalz",
-    twitterName: "0xNicoalz",
-    selectable: false,
-    amount: getRandomAmount({ min: 10000, max: 40000 }),
-  },
-
   {
     photo: "https://pbs.twimg.com/profile_images/1085263128521293827/yA7Jc_5u_400x400.jpg",
     trustDate: getRandomDuration({ min: 100, max: 400 }),
@@ -116,3 +91,13 @@ export const twitterUsers = [
     amount: getRandomAmount({ min: 10000, max: 40000 }),
   },
 ];
+
+export const getTrustPeople = (id: string): { trustedBy: TTwitterUser[]; trustingPeople: TTwitterUser[] } => {
+  const userSelectable = twitterUsers.filter((user) => user.selectable);
+  const useswWithoutMe = userSelectable.filter((user) => user.twitterName.toLowerCase() !== id.toLowerCase());
+  const orderedByAmount = _.orderBy(useswWithoutMe, ["amount"], ["desc"]);
+  const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
+  const trustedBy = orderedByAmount.slice(0, random);
+  const trustingPeople = orderedByAmount.slice(random - 2, random + 2);
+  return { trustedBy, trustingPeople };
+};

@@ -1,5 +1,5 @@
 import { createClient } from "viem";
-import { arbitrumSepolia, baseSepolia, sepolia, arbitrum } from "wagmi/chains";
+import { baseSepolia, sepolia, arbitrum } from "wagmi/chains";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { createConfig, http } from "wagmi";
 import {
@@ -36,7 +36,7 @@ const connectors = connectorsForWallets(
 
 export const config = createConfig({
   connectors,
-  chains: [sepolia, arbitrumSepolia, baseSepolia],
+  chains: [sepolia, arbitrum, baseSepolia],
   client({ chain }) {
     return createClient({ chain, transport: http() });
   },
@@ -47,5 +47,6 @@ export const INITIAL_CHAIN = sepolia;
 
 export const chainIds = {
   sepolia: sepolia.id,
-  arbitrum: arbitrum.id
+  arbitrum: arbitrum.id,
+  baseSepolia: baseSepolia.id,
 };

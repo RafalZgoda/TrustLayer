@@ -1,11 +1,15 @@
 import { Crown, UsersRound, Receipt } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { twitterUsers, getRank, getTrustedByTotalValue, TTwitterUser } from "@/lib/twitterApi";
+import { twitterUsers, TTwitterUser, getTrustPeople } from "@/lib/twitterApi";
+import { getRank, getTrustedByTotalValue, getLastAprover } from "@/lib/trustLayerData";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useWriteContract } from "wagmi";
+import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
+import { type Address } from "viem";
+import { usePrivy } from "@privy-io/react-auth";
 import _ from "lodash";
-
 const ProfileScreen = () => {
   const router = useRouter();
   const [isUserWorlCoinVerified, setIsUserWorlCoinVerified] = useState(false);
@@ -13,8 +17,11 @@ const ProfileScreen = () => {
   const [trustedBy, setTrustedBy] = useState<TTwitterUser[]>([]);
   const [trusting, setTrusting] = useState<TTwitterUser[]>([]);
   const [isMe, setIsMe] = useState(false);
-
+  const { writeContract, isPending, isSuccess, data: txHash, isError } = useWriteContract(); // => to interact with contract & states
+  const [contractAddress, setContractAddress] = useState<Address | undefined>(); // => the address to use
+  const { authenticated, user } = usePrivy(); // get current account // get current account
   const { id } = router.query as { id: string };
+  const [lastApprover, setLastApprover] = useState<TTwitterUser | undefined>();
 
   useEffect(() => {
     if (id.toLowerCase() === "0xnicoalz") {
@@ -22,13 +29,27 @@ const ProfileScreen = () => {
     }
   }, [id]);
 
+  const fetchAndSetLastApprover = () => {
+    const lastApprover = getLastAprover(id);
+    setLastApprover(lastApprover);
+  };
+
   useEffect(() => {
-    const useswWithoutMe = twitterUsers.filter((user) => user.twitterName.toLowerCase() !== id.toLowerCase());
-    const orderedByAmount = _.orderBy(useswWithoutMe, ["amount"], ["desc"]);
-    const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
-    const slicedPeople = orderedByAmount.slice(0, random);
-    setTrustedBy(slicedPeople);
-    const trustingPeople = orderedByAmount.slice(random - 2, random + 2);
+    if (!lastApprover) return;
+    const newTrustedBy = [lastApprover, ...trustedBy];
+    const orderedTrustedBy = _.orderBy(newTrustedBy, ["trustDate"], ["desc"]);
+    setTrustedBy(orderedTrustedBy);
+  }, [lastApprover, trustedBy]);
+
+  useEffect(() => {
+    const { trustedBy, trustingPeople } = getTrustPeople(id);
+    setTrustedBy(trustedBy);
+    setTrusting(trustingPeople);
+  }, [id, setTrustedBy]);
+
+  useEffect(() => {
+    const { trustedBy, trustingPeople } = getTrustPeople(id);
+    setTrustedBy(trustedBy);
     setTrusting(trustingPeople);
   }, [id, setTrustedBy]);
 
@@ -39,6 +60,26 @@ const ProfileScreen = () => {
       setImgUrl(user.photo);
     }
   }, [id]);
+
+  useEffect(() => {
+    if (!authenticated) return; // if no chainId stop
+    const chainId = user?.wallet?.chainId;
+    const addressOfChainId = TrustLayerContract.address[chainId]; // find the address with current chainId
+    setContractAddress(addressOfChainId); // set it
+  }, [authenticated, user]);
+
+  // borrow : params : addresstoken & amount
+
+  const trust = () => {
+    if (!contractAddress) return; // if no address stop
+    if (!id) return; // check params
+    writeContract({
+      abi: TrustLayerContract.abi,
+      address: contractAddress,
+      functionName: "trust",
+      args: [id],
+    });
+  };
 
   return (
     <div className="w-full flex flex-col">
@@ -102,7 +143,7 @@ const ProfileScreen = () => {
           </div>
         </div>
       </div>
-      {isMe && (
+      {!isMe && authenticated && (
         <section className="mb-16 flex flex-col items-center justify-center ">
           <h2 className="mb-8 font-bold text-2xl">Do you want to trust him ?</h2>
           <p>
