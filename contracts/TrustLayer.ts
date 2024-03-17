@@ -293,6 +293,7 @@ const contractsAddressSepolia = "0x8aab0278E42f046673fc089f6A116bCBfd09cE66" as 
 const contractsAddressCelo = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const contractsAddressChiliz = "0x8aab0278e42f046673fc089f6a116bcbfd09ce66" as Address;
 const contractsAddressBase = "0x483cc30919e2c9364b42f2ca44d170da0f0cddb0" as Address;
+const contractsAddressBaseSepolia = "0xE9a57f7e5A18D348B2FE9961A1580A08Deb3AF7b" as Address;
 
 export const TrustLayer: TContract = {
   abi: TrustLayerAbi,
@@ -301,6 +302,7 @@ export const TrustLayer: TContract = {
     [chainIds.sepolia]: contractsAddressSepolia, // chainId => address
     [chainIds.celo]: contractsAddressCelo, // chainId => address
     [chainIds.chiliz]: contractsAddressChiliz, // chainId => address
-    [chainIds.base]: contractsAddressBase // chainId => address
+    [chainIds.base]: contractsAddressBase, // chainId => address
+    [chainIds.baseSepolia]: contractsAddressBaseSepolia // chainId => address
   },
 };
