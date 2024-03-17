@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { arbitrumSepolia, baseSepolia, sepolia } from "viem/chains";
+import { arbitrumSepolia, baseSepolia, chiliz, sepolia } from "viem/chains";
 import { Chain } from "viem";
 
 export function cn(...inputs: ClassValue[]) {
@@ -11,7 +11,7 @@ export const isAddress = (address: string) => {
   return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
 };
 
-export const getChainFromId = (chainId: string): Chain => {
+export const getChainFromId = (chainId: string): Chain  => {
   switch (chainId) {
     case "11155111":
       return sepolia;
@@ -20,6 +20,6 @@ export const getChainFromId = (chainId: string): Chain => {
     case "84532":
       return baseSepolia;
     default:
-      return sepolia;
+      return chiliz;
   }
 };

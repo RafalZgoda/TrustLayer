@@ -8,7 +8,7 @@ import { createSmartAccountClient as createAlchemySmartAccountClient } from "@al
 import { getChainFromId } from "@/lib/utils";
 import { PIMLICO_API_KEY, paymasterClient, pimlicoBundlerClient } from "@/lib/safe";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { baseSepolia, sepolia } from "viem/chains";
+import { baseSepolia, chiliz, sepolia } from "viem/chains";
 import { WalletClientSigner, type SmartAccountSigner } from "@alchemy/aa-core";
 import { createLightAccount } from "@alchemy/aa-accounts";
 import { sponsorUserOperation, updateUserOpGasFields } from "@/lib/paymaster";
@@ -23,6 +23,7 @@ export const sendSmartTransaction = async (to: string, value: bigint, data: stri
   console.log("Sending transaction", { to, value, data });
   try {
     if (smartAccountType === "safe") {
+      console.log("Sending safe transaction");
       const tx = await smartAccount.sendTransaction({
         to,
         value,
@@ -30,6 +31,7 @@ export const sendSmartTransaction = async (to: string, value: bigint, data: stri
       });
       console.log({ tx });
     } else {
+      console.log("Sending smart account transaction");
       const tx = await smartAccount.sendUserOperation({
         uo: { target: to, data, value },
       });
@@ -133,6 +135,7 @@ export function ConnectBtn() {
       });
       smartAccountType = "smartAccount";
       smartAccount = smartAccountClient;
+      console.log({ account });
       // await sendSmartTransaction(wallet.address, BigInt(0), "0x");
     };
 
@@ -141,6 +144,7 @@ export function ConnectBtn() {
       console.log({ user });
       if (chain === sepolia) setupSafe();
       if (chain === baseSepolia) setupSmartAccount();
+      if (chain === chiliz) smartAccount = undefined;
     }
   }, [wallet, wallets, chain, chainId]);
 
