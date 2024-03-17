@@ -12,6 +12,8 @@ import { type Address } from "viem";
 import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
 import { ethers } from "ethers";
 import { USDC, PSG, APE } from "@/contracts/Tokens";
+import { Loader } from "lucide-react";
+
 const HomeScreen: React.FC = () => {
   const { authenticated } = usePrivy();
   const { wallets } = useWallets();
@@ -23,7 +25,6 @@ const HomeScreen: React.FC = () => {
   const [usersTokens, setUsersTokens] = useState<TToken[]>([]);
   const { writeContract, isPending, data: txHash } = useWriteContract(); // => to interact with contract & states
   const [trustLayerContractAddress, setTrustLayerContractAddress] = useState<Address | undefined>(); // => the address to use
-
   const searchParams = useSearchParams();
   const twitter = searchParams.get("twitter");
   const jwt = searchParams.get("jwt");
@@ -70,23 +71,32 @@ const HomeScreen: React.FC = () => {
     setTrustLayerContractAddress(trustLayer); // set it
   }, [authenticated, wallets]);
 
-  const approve = ({ token, approveAmount }: { token: string; approveAmount: number }) => {
+  const approve = async ({ token, approveAmount }: { token: string; approveAmount: number }) => {
     if (!trustLayerContractAddress) return; // if no address stop
     if (!token) return; // check params
     const EIPchainId = wallets[0].chainId; // get the chainId
     const chainId = EIPchainId.split(":")[1];
     if (!chainId) return;
-    const erc20Address = USDC.address[Number(chainId)];
-    console.log("erc20Address", erc20Address);
+    const usdcAddress = USDC.address[Number(chainId)];
+    const psgAddress = PSG.address[Number(chainId)];
+    const apeAddress = APE.address[Number(chainId)];
+    let erc20address = "" as Address;
+    if (token === "USDC") erc20address = usdcAddress;
+    if (token === "PSG") erc20address = psgAddress;
+    if (token === "APE") erc20address = apeAddress;
+
     writeContract({
       abi: USDC.abi,
-      address: erc20Address,
+      address: erc20address,
       functionName: "approve",
       args: [trustLayerContractAddress, ethers.parseEther(approveAmount.toString())],
     });
-    // const newApprovedToken = walletTokens.find((t) => t.symbol === token);
-    // if (newApprovedToken){ setApprovedTokens([...approvedTokens, newApprovedToken])
-    // setWalletTokens(walletTokens.filter((t) => t.symbol !== token));}
+    await new Promise((resolve) => setTimeout(resolve, 12000));
+    const newApprovedToken = walletTokens.find((t) => t.symbol === token);
+    if (newApprovedToken) {
+      setApprovedTokens([...approvedTokens, newApprovedToken]);
+      setWalletTokens(walletTokens.filter((t) => t.symbol !== token));
+    }
   };
 
   useEffect(() => {
@@ -125,8 +135,8 @@ const HomeScreen: React.FC = () => {
             </div>
           )}
           {approvedTokens.map((token, index) => (
-            <div className="w-96  md:mr-8 my-4" key={index}>
-              <div className="relative border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
+            <div className="w-96  md:mr-8 my-4 " key={index}>
+              <div className="relative border py-12 px-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
                 <Image
                   className="absolute -top-6 -right-7 opacity-50 -z-10"
                   width={180}
@@ -137,22 +147,18 @@ const HomeScreen: React.FC = () => {
                 <div className="w-full flex">
                   <div className="flex flex-col w-2/3 justify-center items-center">
                     <div className="flex flex-col items-center justify-center w-fit mb-2">
-                      <p className="font-bold text-gray-500 text-xs">APPROVED</p>
-                      <p>{token.approvedAmount}</p>
+                      <p className="font-bold text-gray-500 text-xs">TOKEN</p>
+                      {/* <p>{token.approvedAmount}</p> */}
                     </div>
                     <div className="flex flex-col items-center justify-center w-fit">
-                      <p className="font-bold text-gray-500 text-xs">USD VALUE</p>
-                      <p>{token.priceUSD * token.approvedAmount} $</p>
+                      <p className="font-bold text-gray-500 text-xs">APPROVED</p>
+                      {/* <p>{token.priceUSD * token.approvedAmount} $</p> */}
                     </div>
                   </div>
                   <div className="w-1/3 flex items-center justify-center opacity-1"></div>
                 </div>
               </div>
-              <div className="flex justify-between items-center">
-                <input className="border border-white/20 rounded-md p-2 bg-bg-dark-blue text-center focus:outline-none" type="text" />
-                <h3 className="text-2xl font-bold">{token.symbol}</h3>
-                <button className="bg-primary-blue text-white px-4 py-2 rounded-md">Approve</button>
-              </div>
+             
             </div>
           ))}
         </div>
@@ -189,8 +195,7 @@ const HomeScreen: React.FC = () => {
                   <div className="w-1/3 flex items-center justify-center opacity-1"></div>
                 </div>
               </div>
-              <div className="flex justify-between items-center">
-                <input className="border border-white/20 rounded-md p-2 bg-bg-dark-blue text-center focus:outline-none" type="text" />
+              <div className="flex justify-evenly items-center">
                 <h3 className="text-2xl font-bold">{token.symbol}</h3>
                 <button
                   onClick={() => {
@@ -198,7 +203,7 @@ const HomeScreen: React.FC = () => {
                   }}
                   className="bg-primary-blue text-white px-4 py-2 rounded-lg"
                 >
-                  Approve
+                  {isPending ? <Loader className="animate-spin text-white" /> : "Approve"}
                 </button>
               </div>
             </div>

@@ -9,13 +9,20 @@ const EcosystemScreen: React.FC = () => {
       tag: "SOCIAL, CHAT, CONNECTIONS",
       description: "Connect with your trust network and talk to them.",
       imgUrl: "/circle_network.png",
-      url: "/circle-network"
+      url: "/circle-network",
     },
     {
-      name: "Shield",
-      tag: "PROTECTION, SOCIAL",
-      description: "Protect and recover your wallet without locking your crypto assets into a smart contract",
-      imgUrl: "/shield.png",
+      name: "Reputa Score",
+      tag: "SOCIAL, REPUTATION",
+      description:
+        "Reputation Score: Monitor your trustworthiness score within the ecosystem based on multiple onchain and offchain factors.",
+      imgUrl: "/reputascore.png",
+    },
+    {
+      name: "Community Notes",
+      tag: "SOCIAL, REPUTATION",
+      description: "Community Notes: Trusted users can issue notes on others' historical actions.",
+      imgUrl: "/Community_Notes_logo.png",
     },
     {
       name: "Raise it",
@@ -30,11 +37,11 @@ const EcosystemScreen: React.FC = () => {
       imgUrl: "/frens_bet.png",
     },
     {
-      name: "Reputa Score",
-      tag: "SOCIAL, REPUTATION",
-      description:
-        "Reputation Score: Monitor your trustworthiness score within the ecosystem based on multiple onchain and offchain factors. Exclusive Airdrops: Access special token rewards for highly trusted users. Community Notes: Trusted users can issue notes on others' historical actions.",
-      imgUrl: "/reputascore.png",
+      name: "Shield",
+      tag: "PROTECTION, SOCIAL",
+      description: "Protect and recover your wallet without locking your crypto assets into a smart contract",
+      imgUrl: "/shield.png",
+      url: "https://i.ibb.co/b5xMDkN/shield-Page.png",
     },
   ];
 
@@ -45,7 +52,7 @@ const EcosystemScreen: React.FC = () => {
         <div className="flex flex-wrap justify-center mb-16">
           {ecosystemApps.map((app, index) => (
             <div className="m-2 w-[36rem]" key={index}>
-              <div className=" border p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
+              <div className="flex flex-col  justify-center border h-72 p-4 border-white/20 rounded-md hover:border-white/60 transition-all  overflow-hidden mb-2">
                 <div className="flex mb-4">
                   <div className="w-1/4 flex justify-center items-center">
                     <Image className="rounded-xl" width={82} height={82} src={app.imgUrl} alt={app.name} />
@@ -53,7 +60,7 @@ const EcosystemScreen: React.FC = () => {
                   <div className="w-3/4 flex flex-col justify-start items-start">
                     <p className="font-bold text-gray-500 text-sm">{app.tag}</p>
                     <p className="font-bold  text-xl my-2">{app.name}</p>
-                    <p className=" text-gray-500 text-xs font-light">{app.description}</p>
+                    <p className=" text-gray-500  font-light">{app.description}</p>
                   </div>
                 </div>
                 <div className="flex justify-between items-center ">
@@ -68,9 +75,10 @@ const EcosystemScreen: React.FC = () => {
                       <Image width={16} height={16} src="/github_logo.png" alt="github_logo" />
                     </div>
                   </div>
-                  <div className="flex bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded" onClick={()=> 
-                    window.open(app.url ?? "", "_blank")
-                  }>
+                  <div
+                    className="flex bg-white/10 hover:bg-white/20 p-2 cursor-pointer rounded"
+                    onClick={() => window.open(app.url ?? "", "_blank")}
+                  >
                     <p>Open</p>
                     <ArrowTopRightOnSquareIcon className="w-5 font-bold ml-2" />
                   </div>
