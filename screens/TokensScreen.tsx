@@ -3,11 +3,21 @@ import Image from "next/image";
 import _ from "lodash";
 import { TToken } from "@/lib/types";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useSearchParams } from "next/navigation";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { usePrivy } from "@privy-io/react-auth";
+import { Button } from "@/components/ui/button";
 const HomeScreen: React.FC = () => {
+  const {authenticated} = usePrivy();
   const [approvedTokens, setApprovedTokens] = useState<TToken[]>([]);
   const [walletTokens, setWalletTokens] = useState<TToken[]>([]);
   const [totalBorrawableUSD, setTotalBorrawableUSD] = useState<number>(0);
   const [borrowableTokens, setBorrowableTokens] = useState<TToken[]>([]);
+  const [popupOpen, setPopupOpen] = useState<boolean>(false);
+  const searchParams = useSearchParams()
+ 
+  const twitter = searchParams.get('twitter')
+  const jwt = searchParams.get('jwt')
 
   useEffect(() => {
     const total = 10984;
@@ -30,7 +40,7 @@ const HomeScreen: React.FC = () => {
         approvedAmount: 4723,
         inWalletAmount: 10000,
         priceUSD: 0.13,
-        imgUrl: "https://cryptologos.cc/logos/chiliz-chz-logo.png",
+        imgUrl: "https://s2.coinmarketcap.com/static/img/coins/200x200/4066.png",
       },
       {
         symbol: "stETH",
@@ -90,8 +100,27 @@ const HomeScreen: React.FC = () => {
     setBorrowableTokens(borrowableTokens);
   }, []);
 
+  useEffect(() => {
+    if (twitter && jwt && authenticated) {
+      setPopupOpen(true)
+    }
+  }, [twitter, jwt, authenticated]);
+
   return (
     <div className="w-full">
+      <Dialog open={popupOpen}>
+            <DialogContent>
+              <DialogHeader className="z-1">
+                <DialogTitle className="text-center ">Welcome {twitter}!</DialogTitle>
+                <DialogDescription>
+                  <div className="flex justify-center z-99 flex-col items-center gap-3">
+                    Please approve the tokens you want to use for your new trust process.
+                  <Button onClick={()=>{ setPopupOpen(false); }}>Continue</Button>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
       <section className="mb-16">
         <h2 className="mb-8 font-bold text-2xl">Your approved tokens:</h2>
         <div className="flex flex-wrap">

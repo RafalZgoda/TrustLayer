@@ -18,7 +18,7 @@ const Home: NextPage = () => {
     if (twitterId) {
       router.push(`/profile/${twitterId}`);
     }
-  }, [user]);
+  }, [router, user]);
   return (
     <>
       <Head>

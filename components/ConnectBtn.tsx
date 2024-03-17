@@ -14,9 +14,36 @@ import { createLightAccount } from "@alchemy/aa-accounts";
 import { sponsorUserOperation, updateUserOpGasFields } from "@/lib/paymaster";
 
 export let smartAccount: any;
+export let smartAccountType: "safe" | "smartAccount";
+let txInProgress = false;
+
+export const sendSmartTransaction = async (to: string, value: bigint, data: string) => {
+  if (txInProgress) return;
+  txInProgress = true;
+  console.log("Sending transaction", { to, value, data });
+  try {
+    if (smartAccountType === "safe") {
+      const tx = await smartAccount.sendTransaction({
+        to,
+        value,
+        data,
+      });
+      console.log({ tx });
+    } else {
+      const tx = await smartAccount.sendUserOperation({
+        uo: { target: to, data, value },
+      });
+      console.log({ tx });
+    }
+  } catch (e) {
+    console.error(e);
+  } finally {
+    txInProgress = false;
+  }
+};
 
 export function ConnectBtn() {
-  const { login, logout, ready, authenticated } = usePrivy();
+  const { user, login, logout, ready, authenticated } = usePrivy();
   const { wallets } = useWallets();
   const [wallet, setWallet] = useState<ConnectedWallet>();
   const [chainId, setChainId] = useState("11155111");
@@ -55,16 +82,10 @@ export function ConnectBtn() {
         },
       });
       smartAccount = smartAccountClient;
-
+      smartAccountType = "safe";
       console.log({ safeAccount });
       localStorage.setItem(`safe-account-${wallet.address}`, safeAccount.address);
-      // const tx = await smartAccountClient.sendTransaction({
-      //   to: "0x0000000000000000000000000000000000000000",
-      //   data: "0x",
-      //   value: BigInt(0),
-      // });
-
-      // console.log({ tx });
+      // await sendTransaction(wallet.address, BigInt(0), "0x");
     };
 
     const setupSmartAccount = async () => {
@@ -99,7 +120,7 @@ export function ConnectBtn() {
         paymasterAndData: {
           paymasterAndData: async (userop) => {
             // request sponsorship
-            const paymasterResp = await sponsorUserOperation(userop, RPC_URL!);
+            const paymasterResp = await sponsorUserOperation(userop, RPC_URL || "");
             // replace the gas fields
             const updatedUserOp = await updateUserOpGasFields(userop, paymasterResp);
             return {
@@ -110,13 +131,14 @@ export function ConnectBtn() {
           dummyPaymasterAndData: () => "0x",
         },
       });
-
+      smartAccountType = "smartAccount";
       smartAccount = smartAccountClient;
+      // await sendSmartTransaction(wallet.address, BigInt(0), "0x");
     };
 
     if (wallets.length > 0) {
       setWallet(wallets[0]);
-      console.log({ chain });
+      console.log({ user });
       if (chain === sepolia) setupSafe();
       if (chain === baseSepolia) setupSmartAccount();
     }
@@ -138,7 +160,7 @@ export function ConnectBtn() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="11155111">Ethereum</SelectItem>
-              <SelectItem value="421614">Arbitrum</SelectItem>
+              <SelectItem value="42161">Arbitrum</SelectItem>
               <SelectItem value="84532">Base</SelectItem>
             </SelectContent>
           </Select>

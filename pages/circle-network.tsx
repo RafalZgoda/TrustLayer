@@ -1,54 +1,22 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { twitterUsers } from "@/lib/twitterApi";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //
 const CircleNetwork: NextPage = () => {
-  const network = [
-    {
-      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
-      holding: "PSG Fan Token",
-      secondTag: "2021-10-10",
-      name: "Kartik Talwar",
-      twitterName: "TheRealKartik",
-      proximity: "N+1",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
-      holding: "ApeCoin",
-      secondTag: "2021-10-10",
-      name: "Stani",
-      twitterName: "StaniKulechov",
-      proximity: "N+1",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
-      holding: "Vitality Fan Token",
-      secondTag: "2021-10-10",
-      name: "Austin Griffith",
-      twitterName: "austingriffith",
-      proximity: "N+2",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
-      holding: "PSG Fan Token",
-      secondTag: "2021-10-10",
-      name: "Stani",
-      twitterName: "drakefjustin",
-      proximity: "N+3",
-    },
-  ];
+  const network = twitterUsers;
 
   const [filteredNetwork, setFilteredNetwork] = useState(network);
 
   const filterProximity = (proximity: string) => {
-    setFilteredNetwork(network.filter((person) => person.proximity === proximity));
+    setFilteredNetwork(network.filter((person:any) => person.proximity === proximity));
   };
 
   const filterHolding = (holding: string) => {
-    setFilteredNetwork(network.filter((person) => person.holding === holding));
+    setFilteredNetwork(network.filter((person:any) => person.holding === holding));
   };
 
   return (
@@ -64,7 +32,7 @@ const CircleNetwork: NextPage = () => {
         </div>
 
         <div>
-          <div className="flex">
+          <div className="flex z-99 mb-24">
             <Select
               onValueChange={(holding) => {
                 filterHolding(holding);

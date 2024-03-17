@@ -11,7 +11,7 @@ import BlueCircle from "../components/BlueCircle";
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden min-h-screen">
       <Header />
       <div className="absolute -top-20 -left-[32rem] -z-40">
         <BlueCircle />
