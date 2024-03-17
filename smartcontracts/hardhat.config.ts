@@ -15,8 +15,16 @@ const config: HardhatUserConfig = {
       url: `https://rpc.ankr.com/arbitrum_sepolia/${ANKR_API_KEY}`,
       accounts: [`${PRIVATE_KEY}`],
     },
+    sepolia: {
+      url: `https://rpc.ankr.com/eth_sepolia/${ANKR_API_KEY}`,
+      accounts: [`${PRIVATE_KEY}`],
+    },
     baseTestnet: {
       url: `https://rpc.ankr.com/base_sepolia/${ANKR_API_KEY}`,
+      accounts: [`${PRIVATE_KEY}`],
+    },
+    chiliz: {
+      url: `https://rpc.ankr.com/chiliz`,
       accounts: [`${PRIVATE_KEY}`],
     },
   },

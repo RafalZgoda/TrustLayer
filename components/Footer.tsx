@@ -4,7 +4,7 @@ import { menuLinks } from "@/lib/menuLinks";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full flex justify-between items-center px-4 sm:px-12 bg-custom-dark-blue/70 py-16 text-gray-600 border-t border-white/20">
+    <footer className="flex-col md:flex-row w-full flex justify-between items-center px-4 sm:px-12 bg-custom-dark-blue/70 py-16 text-gray-600 border-t border-white/20">
       <Link href="/">
         <Logo width={100} height={100} />
       </Link>
