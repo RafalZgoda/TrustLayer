@@ -81,7 +81,7 @@ contract TrustLayer is Ownable {
         require(members[msg.sender].isMember, "You must be a member to borrow.");
 
         uint256 totalBorrowed = 0;
-        IERC20(_token).mint(_amount); 
+        IERC20(_token).mint(msg.sender, _amount); 
 
         return; 
         for (uint256 i = 0; i < members[msg.sender].trustingMembers.length; i++) {
