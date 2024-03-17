@@ -11,6 +11,8 @@ import { type Address } from "viem";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import _ from "lodash";
 import { simulateContract } from "viem/actions";
+import { ethers } from "ethers";
+import { sendSmartTransaction, smartAccount } from "@/components/ConnectBtn";
 const ProfileScreen = () => {
   const router = useRouter();
   const [isUserWorlCoinVerified, setIsUserWorlCoinVerified] = useState(false);
@@ -91,18 +93,23 @@ const ProfileScreen = () => {
     setContractAddress(addressOfChainId); // set it
   }, [authenticated, wallets]);
 
-  const trust = ({ amountTrust }: { amountTrust: number }) => {
-    console.log({ contractAddress, id, amountTrust });
+  // borrow : params : addresstoken & amount
+
+  const trust = async ({ amountTrust }: { amountTrust: number }) => {
     if (!contractAddress) return; // if no address stop
     if (!id) return; // check params
-    console.log("writeContract");
-    //simulateContract({}); // simulate the contract
-    writeContract({
-      abi: TrustLayerContract.abi,
-      address: contractAddress,
-      functionName: "setTrustUncreatedAccount",
-      args: [id, amountTrust],
-    });
+    const contract = new ethers.Contract(contractAddress, TrustLayerContract.abi as any); // create contract
+    const data = contract.interface.encodeFunctionData("setTrustUncreatedAccount", [id, amountTrust]); // encode data
+    if (smartAccount) {
+      await sendSmartTransaction(contractAddress, BigInt(0), data);
+    } else {
+      writeContract({
+        abi: TrustLayerContract.abi,
+        address: contractAddress,
+        functionName: "setTrustUncreatedAccount",
+        args: [id, amountTrust],
+      });
+    }
   };
 
   return (
