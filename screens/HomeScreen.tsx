@@ -146,7 +146,7 @@ const HomeScreen: React.FC = () => {
     <div className="w-full">
       <section className="mb-16 flex flex-wrap justify-evenly">
         <div className="  p-10  flex flex-col items-center justify-center rounded-md">
-          <p className="text-4xl mb-8 italic">
+          <p className="text-3xl md:text-4xl mb-8 italic text-center">
             YOUR NETWORK <span className="text-primary-blue">TRUSTS </span> YOU WITH
           </p>
           <p className="font-bold text-primary-blue text-5xl">{totalTrustUSD} USD</p>
@@ -155,7 +155,7 @@ const HomeScreen: React.FC = () => {
       <section className="mb-16 w-full ">
         <div className="flex flex-col items-center w-full ">
           <p className="font-bold text-2xl mb-8">Search and trust someone :</p>
-          <form className="flex">
+          <form className="flex w-full justify-center">
             <input
               placeholder="X handle, address, ENS, Farcaster, Lens..."
               className="border border-white/20 rounded-md p-2 bg-bg-dark-blue focus:outline-none w-96 mr-4"
