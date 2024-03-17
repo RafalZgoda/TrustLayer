@@ -132,8 +132,6 @@ contract TrustLayer is Ownable {
         }
     }
 
-
-
     // Remove a member
     function removeMember(address _member) external onlyOwner {
         require(members[_member].isMember, "This address is not a member.");
