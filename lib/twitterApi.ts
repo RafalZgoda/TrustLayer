@@ -17,14 +17,18 @@ export const twitterUsers = [
     twitterName: "0xNicoalz",
     selectable: false,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "PSG Fan Token",
+    proximity: "N+1",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
     trustDate: getRandomDuration({ min: 100, max: 400 }),
     name: "Kartik Talwar",
-    twitterName: "TheRealKartik",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    twitterName: "TheRealKartik",
+    holding: "ApeCoin",
+    proximity: "N+1",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
@@ -33,6 +37,8 @@ export const twitterUsers = [
     twitterName: "StaniKulechov",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "PSG Fan Token",
+    proximity: "N+1",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
@@ -41,6 +47,8 @@ export const twitterUsers = [
     twitterName: "austingriffith",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "PSG Fan Token",
+    proximity: "N+1",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
@@ -49,6 +57,8 @@ export const twitterUsers = [
     twitterName: "drakefjustin",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "ApeCoin",
+    proximity: "N+1",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1085263128521293827/yA7Jc_5u_400x400.jpg",
@@ -57,6 +67,8 @@ export const twitterUsers = [
     twitterName: "tkstanczak",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "ApeCoin",
+    proximity: "N+2",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1634913914696736769/u2GDuAyH_400x400.jpg",
@@ -65,6 +77,8 @@ export const twitterUsers = [
     twitterName: "makoto_inoue",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "ApeCoin",
+    proximity: "N+2",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1634964585621880833/_lp8Pjr__400x400.jpg",
@@ -73,6 +87,8 @@ export const twitterUsers = [
     twitterName: "SchorLukas",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "PSG Fan Token",
+    proximity: "N+2",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1514738672603734016/k4xQ0nt1_400x400.jpg",
@@ -81,6 +97,8 @@ export const twitterUsers = [
     twitterName: "CarlFluke",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "Vitality Fan Token",
+    proximity: "N+2",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1430872843747840002/qxMzDq-G_400x400.jpg",
@@ -89,6 +107,8 @@ export const twitterUsers = [
     twitterName: "jamesxik",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "Vitality Fan Token",
+    proximity: "N+3",
   },
   {
     photo: "https://pbs.twimg.com/profile_images/1756803608228577280/lN7SliX3_400x400.jpg",
@@ -97,6 +117,8 @@ export const twitterUsers = [
     twitterName: "0xPenryn",
     selectable: true,
     amount: getRandomAmount({ min: 10000, max: 40000 }),
+    holding: "Vitality Fan Token",
+    proximity: "N+3",
   },
 ];
 

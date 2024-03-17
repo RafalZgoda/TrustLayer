@@ -16,7 +16,7 @@ import { sponsorUserOperation, updateUserOpGasFields } from "@/lib/paymaster";
 export let smartAccount: any;
 
 export function ConnectBtn() {
-  const { login, logout, ready, authenticated } = usePrivy();
+  const { user, login, logout, ready, authenticated } = usePrivy();
   const { wallets } = useWallets();
   const [wallet, setWallet] = useState<ConnectedWallet>();
   const [chainId, setChainId] = useState("11155111");
@@ -99,7 +99,7 @@ export function ConnectBtn() {
         paymasterAndData: {
           paymasterAndData: async (userop) => {
             // request sponsorship
-            const paymasterResp = await sponsorUserOperation(userop, RPC_URL!);
+            const paymasterResp = await sponsorUserOperation(userop, RPC_URL);
             // replace the gas fields
             const updatedUserOp = await updateUserOpGasFields(userop, paymasterResp);
             return {
@@ -116,7 +116,7 @@ export function ConnectBtn() {
 
     if (wallets.length > 0) {
       setWallet(wallets[0]);
-      console.log({ chain });
+      console.log({user})
       if (chain === sepolia) setupSafe();
       if (chain === baseSepolia) setupSmartAccount();
     }
