@@ -623,9 +623,9 @@ const ERC20Abi =[
 
 
 const USDCAddressArbitrum = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
-const USDCAddressSepolia = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
+const USDCAddressSepolia = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
 const USDCAddressCelo = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
-const USDCAddressChiliz = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
+const USDCAddressChiliz = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
 const USDCAddressBase = "0x69c2B09c726c04f17221e59CAfE34599b46c34Ff" as Address;
 
 export const USDC: TContract = {
@@ -659,7 +659,7 @@ export const APE: TContract = {
 const PSGAddressArbitrum = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const PSGAddressSepolia = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const PSGAddressCelo = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
-const PSGAddressChiliz = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
+const PSGAddressChiliz = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
 const PSGAddressBase = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 
 export const PSG: TContract = {
