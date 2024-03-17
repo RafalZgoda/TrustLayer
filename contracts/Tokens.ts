@@ -626,8 +626,8 @@ const USDCAddressArbitrum = "0xaf88d065e77c8cc2239327c5edb3a432268e5831" as Addr
 const USDCAddressSepolia = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
 const USDCAddressCelo = "0x28ec68f071893e509b5b4c18b1d812d83058a31f" as Address;
 const USDCAddressChiliz = "0xe9a57f7e5a18d348b2fe9961a1580a08deb3af7b" as Address;
-const USDCAddressBase = "0x69c2B09c726c04f17221e59CAfE34599b46c34Ff" as Address;
-const USDCAddressBaseSepolia = "0x8aab0278E42f046673fc089f6A116bCBfd09cE66" as  Address
+const USDCAddressBase = "0x081827b8c3aa05287b5aa2bc3051fbe638f33152" as Address;
+const USDCAddressBaseSepolia = "0x081827b8c3aa05287b5aa2bc3051fbe638f33152" as  Address
 
 export const USDC: TContract = {
   abi: ERC20Abi,

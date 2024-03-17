@@ -84,7 +84,11 @@ const HomeScreen: React.FC = () => {
     if (token === "USDC") erc20address = usdcAddress;
     if (token === "PSG") erc20address = psgAddress;
     if (token === "APE") erc20address = apeAddress;
-
+    console.log({
+      erc20address,
+      token,
+      chainId,
+    });
     writeContract({
       abi: USDC.abi,
       address: erc20address,
@@ -158,7 +162,6 @@ const HomeScreen: React.FC = () => {
                   <div className="w-1/3 flex items-center justify-center opacity-1"></div>
                 </div>
               </div>
-             
             </div>
           ))}
         </div>
