@@ -1,8 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+
+interface IERC20 {
+    function transferFrom(address from, address to, uint256 value) external returns (bool);
+    function approve(address spender, uint256 value) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function balanceOf(address account) external view returns (uint256);
+    function mint(address to, uint256 amount) external;
+}
 
 contract TrustLayer is Ownable {
 
@@ -25,8 +32,7 @@ contract TrustLayer is Ownable {
     uint256 public constant BORROW_LIMIT_PERCENT = 50;
     uint256 public memberCount = 0;
     mapping(address => Member) public members;
-    mapping(address => string) public pendingMembersTrust;
-    mapping(address => string) public pendingMembersTrustAmount;
+    mapping(address => mapping(string => uint)) public trustUncreatedAccount;
     
     constructor() Ownable(msg.sender) {
         addMember(msg.sender);
@@ -53,10 +59,11 @@ contract TrustLayer is Ownable {
         }
     }
 
-    function trustNonMember(string memory username, uint256 _amount) public {
-        // _setTrust(", _amount);
-        pendingMembersTrust[msg.sender] = username;
-
+    function setTrustUncreatedAccount(string memory _account, uint _amount) public {
+        trustUncreatedAccount[msg.sender][_account] = _amount; 
+        members[msg.sender].isMember = true;
+        members[msg.sender].mainWallet = msg.sender;
+        memberCount++;
     }
 
     // Calculate the maximum borrowable amount or the trust level 
@@ -73,7 +80,9 @@ contract TrustLayer is Ownable {
         require(members[msg.sender].isMember, "You must be a member to borrow.");
 
         uint256 totalBorrowed = 0;
+        IERC20(_token).mint(msg.sender, _amount); 
 
+        return; 
         for (uint256 i = 0; i < members[msg.sender].trustingMembers.length; i++) {
             address lender = members[msg.sender].trustingMembers[i];
             uint256 maxBorrowable = getMaxBorrowable(msg.sender, lender, _token);
