@@ -133,7 +133,7 @@ export function ConnectBtn() {
       });
       smartAccountType = "smartAccount";
       smartAccount = smartAccountClient;
-      await sendSmartTransaction(wallet.address, BigInt(0), "0x");
+      // await sendSmartTransaction(wallet.address, BigInt(0), "0x");
     };
 
     if (wallets.length > 0) {
