@@ -1,14 +1,14 @@
-import { Crown, UsersRound, Receipt } from "lucide-react";
+import { Crown, UsersRound, Receipt, Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { twitterUsers, TTwitterUser, getTrustPeople } from "@/lib/twitterApi";
 import { getRank, getTrustedByTotalValue, getLastAprover } from "@/lib/trustLayerData";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useTransactionReceipt } from "wagmi";
 import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
 import { type Address } from "viem";
-import { usePrivy } from "@privy-io/react-auth";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 import _ from "lodash";
 const ProfileScreen = () => {
   const router = useRouter();
@@ -17,17 +17,28 @@ const ProfileScreen = () => {
   const [trustedBy, setTrustedBy] = useState<TTwitterUser[]>([]);
   const [trusting, setTrusting] = useState<TTwitterUser[]>([]);
   const [isMe, setIsMe] = useState(false);
-  const { writeContract, isPending, isSuccess, data: txHash, isError } = useWriteContract(); // => to interact with contract & states
+  const { writeContract, isPending, data: txHash } = useWriteContract(); // => to interact with contract & states
   const [contractAddress, setContractAddress] = useState<Address | undefined>(); // => the address to use
-  const { authenticated, user } = usePrivy(); // get current account // get current account
+  const { authenticated } = usePrivy(); // get current account // get current account
   const { id } = router.query as { id: string };
   const [lastApprover, setLastApprover] = useState<TTwitterUser | undefined>();
+  const [isWarningChecked, setIsWarningChecked] = useState(false);
+  const [trustedDone, setTrustedDone] = useState(false);
+  const { wallets } = useWallets();
+  const [myRank, setMyRank] = useState("");
+  const [myValue, setMyValue] = useState("");
+
+  const { isSuccess } = useTransactionReceipt({
+    hash: txHash,
+  });
 
   useEffect(() => {
     if (id.toLowerCase() === "0xnicoalz") {
       setIsMe(true);
     }
-  }, [id]);
+    setMyRank(getRank(id));
+    setMyValue(getTrustedByTotalValue(trustedBy));
+  }, [id, trustedBy]);
 
   const fetchAndSetLastApprover = () => {
     const lastApprover = getLastAprover(id);
@@ -35,11 +46,17 @@ const ProfileScreen = () => {
   };
 
   useEffect(() => {
+    if (!isSuccess) return;
+    fetchAndSetLastApprover();
+    setTrustedDone(true);
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (!lastApprover) return;
     const newTrustedBy = [lastApprover, ...trustedBy];
     const orderedTrustedBy = _.orderBy(newTrustedBy, ["trustDate"], ["desc"]);
     setTrustedBy(orderedTrustedBy);
-  }, [lastApprover, trustedBy]);
+  }, [lastApprover]);
 
   useEffect(() => {
     const { trustedBy, trustingPeople } = getTrustPeople(id);
@@ -63,21 +80,23 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     if (!authenticated) return; // if no chainId stop
-    const chainId = user?.wallet?.chainId;
-    const addressOfChainId = TrustLayerContract.address[chainId]; // find the address with current chainId
+    const EIPchainId = wallets[0].chainId; // get the chainId
+    const chainId = EIPchainId.split(":")[1];
+    if (!chainId) return;
+    const addressOfChainId = TrustLayerContract.address[Number(chainId)]; // find the address with current chainId
     setContractAddress(addressOfChainId); // set it
-  }, [authenticated, user]);
+  }, [authenticated, wallets]);
 
   // borrow : params : addresstoken & amount
 
-  const trust = () => {
+  const trust = ({ amountTrust }: { amountTrust: number }) => {
     if (!contractAddress) return; // if no address stop
     if (!id) return; // check params
     writeContract({
       abi: TrustLayerContract.abi,
       address: contractAddress,
-      functionName: "trust",
-      args: [id],
+      functionName: "setTrustUncreatedAccount",
+      args: [id, amountTrust],
     });
   };
 
@@ -127,7 +146,7 @@ const ProfileScreen = () => {
                   </div>
                   <div className="mx-5">
                     <Receipt className="mx-auto mb-3" size={50} />
-                    {getTrustedByTotalValue(trustedBy)}$
+                    {myValue}$
                   </div>
                 </div>
               </h1>
@@ -137,24 +156,57 @@ const ProfileScreen = () => {
               <h1 className="text-xl font-bold">
                 <p className="text-gray-500 font-bold mb-4">RANK</p>
                 <Crown className="mx-auto mb-3" size={50} />
-                TOP {getRank(id)}%
+                TOP {myRank}%
               </h1>
             </div>
           </div>
         </div>
       </div>
-      {!isMe && authenticated && (
+      {!isMe && authenticated && (!trustedDone || id != "therealkartik") && (
         <section className="mb-16 flex flex-col items-center justify-center ">
           <h2 className="mb-8 font-bold text-2xl">Do you want to trust him ?</h2>
           <p>
-            <input type="checkbox" className="mr-2" />
+            <input
+              onChange={(e) => {
+                setIsWarningChecked(e.target.checked);
+              }}
+              type="checkbox"
+              className="mr-2"
+            />
             By trusting <span className="text-primary-blue">@{id}</span> you will allow him to borrow your tokens and interract with you on
             all Trust Protocol Dapps
           </p>
-          <div className="flex mt-8">
-            <button className="bg-violet-700 text-white px-4 py-2 rounded-md mx-4 cursor-pointer">Basic Trust</button>
-            <button className="bg-primary-blue text-white px-4 py-2 rounded-md mx-4 cursor-pointer">Absolute Trust</button>
+          <div className="flex mt-8 justify-center items-center">
+            <button
+              onClick={() => {
+                trust({ amountTrust: 1 });
+              }}
+              className={`${(isWarningChecked || isPending) && !isSuccess && "bg-violet-500 text-white"}   
+              ${isSuccess && "bg-green-500 text-white"}
+              ${!isWarningChecked && "bg-gray-700 text-gray-400"}  px-4 py-2 rounded-md mx-4 cursor-pointer`}
+            >
+              Basic Trust
+            </button>
+            <button
+              onClick={() => {
+                trust({ amountTrust: 2 });
+              }}
+              className={`
+              ${(isWarningChecked || isPending) && "bg-primary-blue text-white"}   
+              ${!isWarningChecked && "bg-gray-700 text-gray-400"}
+              
+              px-4 py-2 rounded-md mx-4 cursor-pointer flex justify-center items-center`}
+            >
+              {!isPending && (!isSuccess || id != "therealkartik") && <p>Absolute Trust</p>}
+              {isPending && <Loader className="animate-spin text-white" />}
+              {isSuccess && id == "therealkartik" && <p>Success</p>}
+            </button>
           </div>
+        </section>
+      )}
+      {!isMe && authenticated && trustedDone && id == "therealkartik" && (
+        <section className="mb-16 flex justify-center items-center bg-green-700 w-fit m-auto rounded-lg">
+          <div className="mx-4 my-2">YOU ABSOLUTE TRUST HIM</div>
         </section>
       )}
       <section className="mb-16 ">

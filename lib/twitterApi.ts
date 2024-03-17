@@ -11,6 +11,14 @@ export interface TTwitterUser {
 
 export const twitterUsers = [
   {
+    photo: "https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg",
+    trustDate: getRandomDuration({ min: 100, max: 400 }),
+    name: "Nicoalz",
+    twitterName: "0xNicoalz",
+    selectable: false,
+    amount: getRandomAmount({ min: 10000, max: 40000 }),
+  },
+  {
     photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
     trustDate: getRandomDuration({ min: 100, max: 400 }),
     name: "Kartik Talwar",

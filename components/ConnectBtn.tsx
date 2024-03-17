@@ -138,7 +138,7 @@ export function ConnectBtn() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="11155111">Ethereum</SelectItem>
-              <SelectItem value="421614">Arbitrum</SelectItem>
+              <SelectItem value="42161">Arbitrum</SelectItem>
               <SelectItem value="84532">Base</SelectItem>
             </SelectContent>
           </Select>
