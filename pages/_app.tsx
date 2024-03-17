@@ -7,7 +7,7 @@ import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { config } from "../config/wagmiProvider";
 import { PrivyProvider } from "@privy-io/react-auth";
-import { sepolia } from "viem/chains";
+import { arbitrum } from "viem/chains";
 import Auth from "@/components/Auth";
 
 const queryClient = new QueryClient();
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         embeddedWallets: {
           createOnLogin: "users-without-wallets",
         },
-        defaultChain: sepolia,
+        defaultChain: arbitrum,
         loginMethods: ["twitter", "wallet", "farcaster", "github", "linkedin"],
       }}
     >

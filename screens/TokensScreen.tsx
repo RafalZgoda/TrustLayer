@@ -30,7 +30,7 @@ const HomeScreen: React.FC = () => {
         approvedAmount: 4723,
         inWalletAmount: 10000,
         priceUSD: 0.13,
-        imgUrl: "https://cryptologos.cc/logos/chiliz-chz-logo.png",
+        imgUrl: "https://s2.coinmarketcap.com/static/img/coins/200x200/4066.png",
       },
       {
         symbol: "stETH",

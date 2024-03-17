@@ -73,7 +73,7 @@ export default function Auth() {
     <>
       {isClient && (
         <>
-          <Dialog open={!userWorldcoinVerified && authenticated && !ignoreVerifications}>
+          {/* <Dialog open={!userWorldcoinVerified && authenticated && !ignoreVerifications}>
             <DialogContent>
               <DialogHeader className="z-1">
                 <DialogTitle className="text-center ">You are not verified yet</DialogTitle>
@@ -138,7 +138,7 @@ export default function Auth() {
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
         </>
       )}
     </>

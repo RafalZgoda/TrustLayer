@@ -1,78 +1,104 @@
-import { Network } from "@/lib/types";
-import { Crown, UsersRound, Receipt } from "lucide-react";
+import { Crown, UsersRound, Receipt, Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { twitterUsers, TTwitterUser, getTrustPeople } from "@/lib/twitterApi";
+import { getRank, getTrustedByTotalValue, getLastAprover } from "@/lib/trustLayerData";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useWriteContract, useTransactionReceipt } from "wagmi";
+import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
+import { type Address } from "viem";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
+import _ from "lodash";
+const ProfileScreen = () => {
+  const router = useRouter();
+  const [isUserWorlCoinVerified, setIsUserWorlCoinVerified] = useState(false);
+  const [imgUrl, setImgUrl] = useState("");
+  const [trustedBy, setTrustedBy] = useState<TTwitterUser[]>([]);
+  const [trusting, setTrusting] = useState<TTwitterUser[]>([]);
+  const [isMe, setIsMe] = useState(false);
+  const { writeContract, isPending, data: txHash } = useWriteContract(); // => to interact with contract & states
+  const [contractAddress, setContractAddress] = useState<Address | undefined>(); // => the address to use
+  const { authenticated } = usePrivy(); // get current account // get current account
+  const { id } = router.query as { id: string };
+  const [lastApprover, setLastApprover] = useState<TTwitterUser | undefined>();
+  const [isWarningChecked, setIsWarningChecked] = useState(false);
+  const [trustedDone, setTrustedDone] = useState(false);
+  const { wallets } = useWallets();
+  const [myRank, setMyRank] = useState("");
+  const [myValue, setMyValue] = useState("");
 
-const ProfileScreen = (params: {
-  address: string;
-  twitter: string;
-  smartAddress: string;
-  network: Network;
-  worldCoinVerified: boolean;
-}) => {
-  const { twitter, network } = params;
+  const { isSuccess } = useTransactionReceipt({
+    hash: txHash,
+  });
 
-  const trustedBy = [
-    {
-      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Kartik Talwar",
-      twitterName: "TheRealKartik",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "StaniKulechov",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Austin Griffith",
-      twitterName: "austingriffith",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "drakefjustin",
-    },
-  ];
+  useEffect(() => {
+    if (id.toLowerCase() === "0xnicoalz") {
+      setIsMe(true);
+    }
+    setMyRank(getRank(id));
+    setMyValue(getTrustedByTotalValue(trustedBy));
+  }, [id, trustedBy]);
 
-  const trusting = [
-    {
-      photo: "https://pbs.twimg.com/profile_images/1085757468158742528/0jwhEGnX_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Kartik Talwar",
-      twitterName: "TheRealKartik",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1730696978906972161/J2zHNQRm_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "StaniKulechov",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/1484336102693490689/bmhym86N_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Austin Griffith",
-      twitterName: "austingriffith",
-    },
-    {
-      photo: "https://pbs.twimg.com/profile_images/632301429424816128/OwT0LdXU_400x400.jpg",
-      amount: 100,
-      trustDate: "2021-10-10",
-      name: "Stani",
-      twitterName: "drakefjustin",
-    },
-  ];
+  const fetchAndSetLastApprover = () => {
+    const lastApprover = getLastAprover(id);
+    setLastApprover(lastApprover);
+  };
+
+  useEffect(() => {
+    if (!isSuccess) return;
+    fetchAndSetLastApprover();
+    setTrustedDone(true);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (!lastApprover) return;
+    const newTrustedBy = [lastApprover, ...trustedBy];
+    const orderedTrustedBy = _.orderBy(newTrustedBy, ["trustDate"], ["desc"]);
+    setTrustedBy(orderedTrustedBy);
+  }, [lastApprover]);
+
+  useEffect(() => {
+    const { trustedBy, trustingPeople } = getTrustPeople(id);
+    setTrustedBy(trustedBy);
+    setTrusting(trustingPeople);
+  }, [id, setTrustedBy]);
+
+  useEffect(() => {
+    const { trustedBy, trustingPeople } = getTrustPeople(id);
+    setTrustedBy(trustedBy);
+    setTrusting(trustingPeople);
+  }, [id, setTrustedBy]);
+
+  useEffect(() => {
+    setIsUserWorlCoinVerified(true);
+    const user = twitterUsers.find((user) => user.twitterName.toLowerCase() === id.toLowerCase());
+    if (user) {
+      setImgUrl(user.photo);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (!authenticated) return; // if no chainId stop
+    const EIPchainId = wallets[0].chainId; // get the chainId
+    const chainId = EIPchainId.split(":")[1];
+    if (!chainId) return;
+    const addressOfChainId = TrustLayerContract.address[Number(chainId)]; // find the address with current chainId
+    setContractAddress(addressOfChainId); // set it
+  }, [authenticated, wallets]);
+
+  // borrow : params : addresstoken & amount
+
+  const trust = ({ amountTrust }: { amountTrust: number }) => {
+    if (!contractAddress) return; // if no address stop
+    if (!id) return; // check params
+    writeContract({
+      abi: TrustLayerContract.abi,
+      address: contractAddress,
+      functionName: "setTrustUncreatedAccount",
+      args: [id, amountTrust],
+    });
+  };
 
   return (
     <div className="w-full flex flex-col">
@@ -80,15 +106,10 @@ const ProfileScreen = (params: {
         <div className="max-w-10/12 flex flex-col">
           <div className="flex relative flex-col md:flex-row items-center justify-center ">
             <div className="md:hidden flex justify-evenly items-center mb-4 w-full">
-              <div className="flex justify-center items-center rounded">
-                <Image
-                  width={82}
-                  height={82}
-                  src="https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg"
-                  alt="user img"
-                />
+              <div className="flex justify-center items-center ">
+                <Image className="rounded-xl" width={82} height={82} src={imgUrl} alt="user img" />
               </div>
-              {params.worldCoinVerified && (
+              {isUserWorlCoinVerified && (
                 <div className="md:hidden flex flex-col justify-start items-center w-32 mb-4">
                   <div className="flex flex-col items-center">
                     <p className="text-gray-500 font-bold text-[0.5rem]">WORLDCOIN VERIFIED</p>
@@ -99,18 +120,13 @@ const ProfileScreen = (params: {
             </div>
             <div className="flex items-start  mb-10">
               <div className="hidden md:flex justify-center items-center rounded ">
-                <Image
-                  width={82}
-                  height={82}
-                  src="https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg"
-                  alt="user img"
-                />
+                <Image className="rounded-xl" width={82} height={82} src={imgUrl} alt="user img" />
               </div>
               <div>
-                <h1 className={`w-fit font-bold text-center border border-white/20 p-5 mx-8 text-3xl"}`}>@{twitter}</h1>
+                <h1 className={`w-fit font-bold text-center border border-white/20 p-5 mx-8 text-3xl"}`}>@{id}</h1>
               </div>
 
-              {params.worldCoinVerified && (
+              {isUserWorlCoinVerified && (
                 <div className="hidden md:flex flex-col items-center">
                   <p className="text-gray-500 font-bold text-[0.5rem]">WORLDCOIN VERIFIED</p>
                   <Image className="w-12 h-12" src="/worldcoin_verified.png" alt="worldcoin-verified" width={50} height={50} />
@@ -126,10 +142,11 @@ const ProfileScreen = (params: {
                 <div className="flex justify-center items-center">
                   <div className="mx-5">
                     <UsersRound className="mx-auto mb-3" size={50} />
-                    {network.links}
+                    {trustedBy.length}
                   </div>
                   <div className="mx-5">
-                    <Receipt className="mx-auto mb-3" size={50} />${network.approved}
+                    <Receipt className="mx-auto mb-3" size={50} />
+                    {myValue}$
                   </div>
                 </div>
               </h1>
@@ -139,12 +156,59 @@ const ProfileScreen = (params: {
               <h1 className="text-xl font-bold">
                 <p className="text-gray-500 font-bold mb-4">RANK</p>
                 <Crown className="mx-auto mb-3" size={50} />
-                TOP 2%
+                TOP {myRank}%
               </h1>
             </div>
           </div>
         </div>
       </div>
+      {!isMe && authenticated && (!trustedDone || id != "therealkartik") && (
+        <section className="mb-16 flex flex-col items-center justify-center ">
+          <h2 className="mb-8 font-bold text-2xl">Do you want to trust him ?</h2>
+          <p>
+            <input
+              onChange={(e) => {
+                setIsWarningChecked(e.target.checked);
+              }}
+              type="checkbox"
+              className="mr-2"
+            />
+            By trusting <span className="text-primary-blue">@{id}</span> you will allow him to borrow your tokens and interract with you on
+            all Trust Protocol Dapps
+          </p>
+          <div className="flex mt-8 justify-center items-center">
+            <button
+              onClick={() => {
+                trust({ amountTrust: 1 });
+              }}
+              className={`${(isWarningChecked || isPending) && !isSuccess && "bg-violet-500 text-white"}   
+              ${isSuccess && "bg-green-500 text-white"}
+              ${!isWarningChecked && "bg-gray-700 text-gray-400"}  px-4 py-2 rounded-md mx-4 cursor-pointer`}
+            >
+              Basic Trust
+            </button>
+            <button
+              onClick={() => {
+                trust({ amountTrust: 2 });
+              }}
+              className={`
+              ${(isWarningChecked || isPending) && "bg-primary-blue text-white"}   
+              ${!isWarningChecked && "bg-gray-700 text-gray-400"}
+              
+              px-4 py-2 rounded-md mx-4 cursor-pointer flex justify-center items-center`}
+            >
+              {!isPending && (!isSuccess || id != "therealkartik") && <p>Absolute Trust</p>}
+              {isPending && <Loader className="animate-spin text-white" />}
+              {isSuccess && id == "therealkartik" && <p>Success</p>}
+            </button>
+          </div>
+        </section>
+      )}
+      {!isMe && authenticated && trustedDone && id == "therealkartik" && (
+        <section className="mb-16 flex justify-center items-center bg-green-700 w-fit m-auto rounded-lg">
+          <div className="mx-4 my-2">YOU ABSOLUTE TRUST HIM</div>
+        </section>
+      )}
       <section className="mb-16 ">
         <h2 className="mb-8 font-bold text-2xl">Trusted by:</h2>
         <div className="flex flex-wrap justify-center lg:justify-evenly xl:justify-between">
@@ -157,7 +221,7 @@ const ProfileScreen = (params: {
               <div className="flex flex-col ">
                 <div className="flex justify-evenly mb-4 ">
                   <div className="flex justify-center items-center rounded">
-                    <Image width={82} height={82} src={person.photo} alt={person.name} />
+                    <Image className="rounded-xl" width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
                     <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
@@ -174,12 +238,12 @@ const ProfileScreen = (params: {
                 </div>
                 <div className="flex justify-evenly items-center ">
                   <div className="flex flex-col items-center mr-8">
-                    <p className="text-gray-500 font-light text-[0.75rem]">STAKED</p>
-                    <p className="   font-bold">{person.amount} $</p>
+                    <p className="text-gray-500 font-light text-[0.75rem]">WITH</p>
+                    <p className="font-bold">{person.amount} $</p>
                   </div>
                   <div className="flex flex-col items-center">
                     <p className="text-gray-500 font-light text-[0.75rem]">SINCE</p>
-                    <p className=" font-bold">{person.trustDate}</p>
+                    <p className=" font-bold">{person.trustDate} days</p>
                   </div>
                 </div>
               </div>
@@ -199,7 +263,7 @@ const ProfileScreen = (params: {
               <div className="flex flex-col ">
                 <div className="flex justify-evenly mb-4 ">
                   <div className="flex justify-center items-center rounded">
-                    <Image width={82} height={82} src={person.photo} alt={person.name} />
+                    <Image className="rounded-xl" width={82} height={82} src={person.photo} alt={person.name} />
                   </div>
                   <div className=" flex flex-col justify-center items-center">
                     <p className="font-bold text-gray-500 text-sm">@{person.twitterName}</p>
@@ -216,7 +280,7 @@ const ProfileScreen = (params: {
                 </div>
                 <div className="flex justify-evenly items-center ">
                   <div className="flex flex-col items-center mr-8">
-                    <p className="text-gray-500 font-light text-[0.75rem]">STAKED</p>
+                    <p className="text-gray-500 font-light text-[0.75rem]">WITH</p>
                     <p className="   font-bold">{person.amount} $</p>
                   </div>
                   <div className="flex flex-col items-center">
