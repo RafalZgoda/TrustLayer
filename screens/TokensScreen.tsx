@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import _ from "lodash";
 import { TToken } from "@/lib/types";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSearchParams } from "next/navigation";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { useWriteContract, useTransactionReceipt } from "wagmi";
 import { type Address } from "viem";
 import { TrustLayer as TrustLayerContract } from "../contracts/TrustLayer";
 import { ethers } from "ethers";
+
 const HomeScreen: React.FC = () => {
   const { authenticated } = usePrivy();
   const { wallets } = useWallets();
