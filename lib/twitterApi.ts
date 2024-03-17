@@ -109,3 +109,11 @@ export const getTrustPeople = (id: string): { trustedBy: TTwitterUser[]; trustin
   const trustingPeople = orderedByAmount.slice(random - 2, random + 2);
   return { trustedBy, trustingPeople };
 };
+
+export const getRecommandPeople = (id: string): TTwitterUser[] => {
+  const userSelectable = twitterUsers.filter((user) => user.selectable);
+  const useswWithoutMe = userSelectable.filter((user) => user.twitterName.toLowerCase() !== id.toLowerCase());
+  const orderedByAmount = _.orderBy(useswWithoutMe, ["amount"], ["desc"]);
+  const random = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
+  return orderedByAmount.slice(0, random);
+};

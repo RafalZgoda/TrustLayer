@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         },
         defaultChain: arbitrum,
         loginMethods: ["twitter", "wallet", "farcaster", "github", "linkedin"],
+        appearance: { theme: "dark" },
       }}
     >
       <QueryClientProvider client={queryClient}>

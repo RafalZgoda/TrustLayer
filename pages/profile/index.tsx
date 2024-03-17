@@ -10,8 +10,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const address = user?.wallet?.address;
+    console.log({ address });
     if (!address) return;
-
     const twitterAdrr = userDB.find((user) => user.address.toLowerCase() === address.toLowerCase())?.twitter;
     const twitterSmart = userDB.find((user) => user.address.toLowerCase() === address.toLowerCase())?.twitter;
     const twitterId = twitterAdrr || twitterSmart;

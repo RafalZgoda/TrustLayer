@@ -87,8 +87,6 @@ const ProfileScreen = () => {
     setContractAddress(addressOfChainId); // set it
   }, [authenticated, wallets]);
 
-  // borrow : params : addresstoken & amount
-
   const trust = ({ amountTrust }: { amountTrust: number }) => {
     if (!contractAddress) return; // if no address stop
     if (!id) return; // check params
