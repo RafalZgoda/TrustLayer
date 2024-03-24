@@ -12,6 +12,16 @@ export interface TTwitterUser {
 }
 
 export const twitterUsers = [
+    {
+    photo: "https://pbs.twimg.com/profile_images/1748153260203229184/sXJIGMBk_400x400.jpg",
+    trustDate: getRandomDuration({ min: 100, max: 400 }),
+    name: "Vitalik Buterin",
+    twitterName: "vitalik.eth",
+    selectable: true,
+    amount: getRandomAmount({ min: 100000, max: 400000 }),
+    holding: "APECoin",
+    proximity: "N+1",
+  },
   {
     photo: "https://pbs.twimg.com/profile_images/1625144132942561282/iduIzbk__400x400.jpg",
     trustDate: "1",
